@@ -13,7 +13,7 @@ class Score {
 
     // return hignestScore in class Score
     int getHscore();
-    int getLevel();
+    Level* getLevel();
 
     void setScore(int newScore);
     void setHscore(int newHscore);
