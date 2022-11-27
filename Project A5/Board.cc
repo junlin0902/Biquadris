@@ -52,6 +52,7 @@ void Board::left() {
             return;
         }
     }
+    // 这里要判断是否有重合的pos 如果有重合就right 下面几个method同理
 }
 
 void Board::right() {cur_block->right();}
