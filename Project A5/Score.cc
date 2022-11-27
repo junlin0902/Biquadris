@@ -17,6 +17,6 @@ void Score::cleanRow(int numRow) {
     }
 }
 
-void Score::addScore(int num) {score += num;}
+void Score::addScore(int num) {score += num;} //说实话我不知道这个function到底是在干嘛 已经有cleanRow了我不知道需不需要这个到底
 
 void Score::restart() {score = 0;}
