@@ -22,7 +22,7 @@ void Level::setFilename(std::string fname) {filename = fname;}
 
 //=============================================================
 // class Level0
-std::shared_ptr<Block> Level0::createBlock() {
+std::shared_ptr<Block> Level0::createBlock() { //所以level0是没有file就运行不了吗 是必须有个默认file文件吗
     int size = block.size();
     if (curIndex == size) {
         curIndex = 0;
