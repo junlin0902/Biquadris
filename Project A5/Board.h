@@ -30,12 +30,15 @@ class Board {
     std::shared_ptr<Block> getNextBlock();
     std::shared_ptr<Level> getLevel();
     std::shared_ptr<Score> getScore();
+    std::vector<std::shared_ptr<Block>> & getcell();
     int totalBlock();
 
     void createBlock();
     
     // helper for finding if there exists Posn{x, y} visible
     bool findPos(int& x, int& y);
+    // return the type of block if there exists Posn{x, y} visible
+    char blocktype(int& x, int& y);
 
     void left();
     void right();

@@ -4,14 +4,17 @@
 
 class View {
     bool isGraphic;
-    Xwindow* xw;
+    Xwindow* xw = nullptr;
 
     public:
-    View();
+    explicit View(bool g);
     ~View();
-    void displayText();
-    void displayGraph();
-    void endGame();
+    void displayText(BoardControl *board);
+    void displayGraph(BoardControl *board);
+    void endGame(BoardControl *board);
+    void initGraph();
+    void applyBlind(BoardControl *board);
+    void removeBlind(BoardControl *board);
 };
 
 #endif

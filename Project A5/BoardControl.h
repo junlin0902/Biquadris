@@ -26,4 +26,4 @@ class BoardControl {
     void changeRound();
 };
 
-#ifndef
+#endif

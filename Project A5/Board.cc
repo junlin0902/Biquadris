@@ -19,6 +19,7 @@ std::shared_ptr<Block> Board::getCurBlock() {return cur_block;}
 std::shared_ptr<Block> Board::getNextBlock() {return next_block;}
 std::shared_ptr<Level> Board::getLevel() {return level;}
 std::shared_ptr<Score> Board::getScore() {return score;}
+std::vector<std::shared_ptr<Block>> & Board::getcell() {return cells;}
 
 int Board::totalBlock() {return num_block;}
 
@@ -41,6 +42,15 @@ bool Board::findPos(int& x, int& y) {
         }
     }
     return false;
+}
+
+char Board::blocktype(int& x, int& y){
+    for (auto& b: cells) {
+        if (b->findPos(x, y)) {
+            return b.get()->blockType();
+        }
+    }
+    return ' ';
 }
 
 void Board::left() {
