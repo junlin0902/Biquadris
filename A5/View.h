@@ -1,8 +1,8 @@
 #ifndef _VIEW_H_
 #define _VIEW_H_
 #include "window.h"
-#include "BoardControl.h"
 #include <memory>
+#include "Board.h"
 
 class View {
     bool isGraphic;
@@ -10,12 +10,12 @@ class View {
 
     public:
     explicit View(bool g);
-    void displayText(std::shared_ptr<BoardControl> board);
-    void displayGraph(std::shared_ptr<BoardControl> board);
-    void endGame(std::shared_ptr<BoardControl> board);
+    void displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    void displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    void endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void initGraph();
-    void applyBlind(std::shared_ptr<BoardControl> board);
-    void removeBlind(std::shared_ptr<BoardControl> board);
+    void applyBlind(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    void removeBlind(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
 };
 
 #endif

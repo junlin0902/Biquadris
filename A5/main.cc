@@ -3,6 +3,8 @@
 #include "Level.h"
 #include "Score.h"
 #include "Board.h"
+#include "View.h"
+#include "BoardControl.h"
 #include <memory>
 
 void print(Board player1) {
@@ -20,45 +22,56 @@ void print(Board player1) {
 }
 
 int main() {
-    Board player1 = Board();
-    player1.createBlock();
-    print(player1);
-    player1.drop();
-    print(player1);
-    player1.right();
-    player1.right();
-    player1.rotateCW();
-    print(player1);
-    player1.drop();
-    print(player1);
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.drop();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.drop();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.right();
-    player1.drop();
-    print(player1);
-    player1.cleanRow();
-    print(player1);
-    std::shared_ptr<Block> force = std::make_shared<I_block>();
-    player1.force(force);
-    print(player1);
-    player1.reset();
-    print(player1);
+    // Board player1 = Board();
+    // player1.createBlock();
+    // print(player1);
+    // player1.drop();
+    // print(player1);
+    // player1.right();
+    // player1.right();
+    // player1.rotateCW();
+    // print(player1);
+    // player1.drop();
+    // print(player1);
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.drop();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.drop();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.right();
+    // player1.drop();
+    // print(player1);
+    // player1.cleanRow();
+    // print(player1);
+    // std::shared_ptr<Block> force = std::make_shared<I_block>();
+    // player1.force(force);
+    // print(player1);
+    // player1.reset();
+    // print(player1);
+///////////////////////////
+    std::shared_ptr<Board> p1 = std::make_shared<Board>();
+    std::shared_ptr<Board> p2 = std::make_shared<Board>();
+    bool graph = true;
+    bool blind = false;
+    BoardControl bc = BoardControl(p1, p2, graph, blind);
+    p1->createBlock();
+    p2->createBlock();
+    // bc.textDisplay();
+    bc.graphDisplay();
+    
 }
 
