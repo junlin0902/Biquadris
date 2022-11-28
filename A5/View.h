@@ -6,7 +6,7 @@
 
 class View {
     bool isGraphic;
-    std::shared_ptr<Xwindow> xw = nullptr;
+    std::shared_ptr<Xwindow> xw = nullptr;    
 
     public:
     explicit View(bool g);
