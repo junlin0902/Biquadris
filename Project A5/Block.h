@@ -10,7 +10,7 @@ struct Posn {
     int x, y;
     bool visible = true;
     bool operator==(const Posn& other) {
-        return (x == other.x && y == other.y);
+        return (x == other.x && y == other.y && visible == other.visible);
     }
 };
 
