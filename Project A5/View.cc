@@ -12,14 +12,14 @@
 const int boardRows = 15;
 const int totalRows = 18;
 const int boardCols = 11;
-const int s = 10;                          // side length of 1 single block
+const int s = 10;                               // side length of 1 single block
 const float w = s - 0.01;
-const int board_width = boardCols * s;    // width of a board
-const int board_height = boardRows * s;   // height of a board
-const int header_h = 3 * s;       // height of header part
-const int footer_h = 3 * s;       // height of footer part
-const int inner_s= 3 * s;        // width of space between b1 and b2
-const int outter_s = 2 * s;       // width of outter space 
+const int board_width = boardCols * s;          // width of a board
+const int board_height = boardRows * s;         // height of a board
+const int header_h = 3 * s;                     // height of header part
+const int footer_h = 3 * s;                     // height of footer part
+const int inner_s= 3 * s;                       // width of space between b1 and b2
+const int outter_s = 2 * s;                     // width of outter space 
 const int win_width = 2 * (board_width + outter_s) + inner_s;      // width of the entire window
 const int win_height = header_h + board_height + footer_h;     // height of the entire window
 
