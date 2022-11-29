@@ -34,6 +34,18 @@ void Board::createBlock() {
     cells.push_back(cur_block);
 }
 
+void Board::setBlind() {
+    this->isBlind = true;
+}
+
+void Board::unsetBlind() {
+    this->isBlind = false;
+}
+
+bool Board::getBlind(){
+    return this->isBlind;
+}
+
 bool Board::findPos(int& x, int& y) {
     for (auto& b: cells) {
         if (b->findPos(x, y)) {

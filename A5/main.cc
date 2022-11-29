@@ -66,10 +66,14 @@ int main() {
     std::shared_ptr<Board> p1 = std::make_shared<Board>();
     std::shared_ptr<Board> p2 = std::make_shared<Board>();
     bool graph = true;
-    bool blind = false;
-    BoardControl bc = BoardControl(p1, p2, graph, blind);
+    BoardControl bc = BoardControl(p1, p2, graph);
     p1->createBlock();
     p2->createBlock();
+    // bc.textDisplay();
+    p1->setBlind();
+    bc.graphDisplay();
+    // bc.textDisplay();
+    p1->unsetBlind();
     // bc.textDisplay();
     bc.graphDisplay();
     

@@ -10,11 +10,10 @@ class BoardControl {
     int round = 1;
     View view;
     bool graphic;
-    bool blind;
 
     public:
-    BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g, bool b)
-    : Board1{Board1}, Board2{Board2}, view{View(g)}, graphic{g}, blind{b} {}
+    BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g)
+    : Board1{Board1}, Board2{Board2}, view{View(g)}, graphic{g} {}
     void restart();
     void rotateCW(int times);
     void rotateAW(int times);
@@ -30,6 +29,8 @@ class BoardControl {
     void changeRound();
     void textDisplay();
     void graphDisplay();
+    void applyBlind();
+    void removeBlind();
 };
 
 #endif

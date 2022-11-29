@@ -112,19 +112,29 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     xw->drawString(board_l2 + 1, 2 * s, "Score:  " + std::to_string( b2.get()->getScore().get()->getScore()));
 
     // board
-    for (int i = 0; i < boardCols; i++){
+    for (int i = 0; i < boardRows; i++){
         int color = 0;
         // board 1
-        for (int j = 0; j < boardRows; j++){
-            color = colortype(b1.get()->findType(j, i));
-            xw->fillRectangle(board_l1 + (i * s), board_top + (j * s), w, w, color);
+        for (int j = 0; j < boardCols; j++){
+            // blind && in the range -> black
+            if ((b1->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+                xw->fillRectangle(board_l1 + (j * s), board_top + (i * s), w, w, Xwindow::Black);
+            }
+            else {
+                color = colortype(b1.get()->findType(j, i));
+                xw->fillRectangle(board_l1 + (j * s), board_top + (i * s), w, w, color);
+            }  
         }
         // board 2
-        for (int j = 0; j < boardRows; j++){
-            color = colortype(b2.get()->findType(j, i));
-            xw->fillRectangle(board_l2 + (i * s), board_top + (j * s), w, w, color);
+        for (int j = 0; j < boardCols; j++){
+            if ((b2->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+                xw->fillRectangle(board_l2 + (j * s), board_top + (i * s), w, w, Xwindow::Black);
+            }
+            else {
+                color = colortype(b2.get()->findType(j, i));
+                xw->fillRectangle(board_l2 + (j * s), board_top + (i * s), w, w, color);
+            } 
         }
-
     }
 
     // Next Block:
@@ -134,12 +144,12 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         // board 1 next block
             if (b1.get()->getNextBlock().get()->findPos(j, i)){
                     color = colortype(b1->getNextBlock().get()->blockType());
-                    xw->fillRectangle(board_l1 + 5 * s + (i * s), board_d + s + (j * s), w, w, color);
+                    xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d + s + (i * s), w, w, color);
             }
             // board 2
             if (b2.get()->getNextBlock().get()->findPos(j, i)){
                     color = colortype(b2->getNextBlock().get()->blockType());
-                    xw->fillRectangle(board_l2 + 5 * s + (i * s), board_d + s + (j * s), w, w, color);
+                    xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + s + (i * s), w, w, color);
         }
        } 
     }
@@ -164,14 +174,26 @@ void View::displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     for (int i = 0; i < boardRows; i++) {
         // board 1
         for (int j = 0; j < boardCols; j++){
-            std::cout << b1->findType(j, i);         
+            // blind && in the range -> cout '?'
+            if ((b1->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+                std::cout << '?';
+            }
+            else {
+                std::cout << b1->findType(j, i);   
+            }     
         }
 
         std::cout << "          ";
 
         // board 2
-        for (int j = 0; j < boardCols; j++){
-            std::cout << b2->findType(j, i);
+        for (int j = 0; j < boardRows; j++){
+            // blind && in the range -> cout '?'
+            if ((b2->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+                std::cout << '?';
+            }
+            else {
+                std::cout << b2->findType(j, i);
+            } 
         }
 
         std::cout << std::endl;

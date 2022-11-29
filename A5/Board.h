@@ -26,6 +26,11 @@ class Board {
     void setLevel(std::shared_ptr<Level> level);
     void setScore(std::shared_ptr<Score> score);
 
+    // blind effect
+    void setBlind();
+    void unsetBlind();
+    bool getBlind();
+
     std::shared_ptr<Block> getCurBlock();
     std::shared_ptr<Block> getNextBlock();
     std::shared_ptr<Level> getLevel();
@@ -33,7 +38,7 @@ class Board {
     int totalBlock();
 
     void createBlock();
-    
+
     // helper for finding if there exists Posn{x, y} visible
     bool findPos(int& x, int& y);
     char findType(int& x, int& y);

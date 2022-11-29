@@ -14,8 +14,10 @@ class View {
     void displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void initGraph();
-    void applyBlind(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
-    void removeBlind(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    void applyBlind_graph(std::shared_ptr<Board> board);
+    void removeBlind_graph(std::shared_ptr<Board> board);
+    void applyBlind_text(std::shared_ptr<Board> board);
+    void removeBlind_text(std::shared_ptr<Board> board);
 };
 
 #endif

@@ -174,3 +174,21 @@ void BoardControl::graphDisplay() {
     view.displayGraph(Board1, Board2);
 }
 
+void BoardControl::applyBlind() {
+    if (round == 1){
+        Board2->setBlind();
+    }
+    else {
+        Board1->setBlind();
+    } 
+}
+
+void BoardControl::removeBlind() {
+    if (round == 1) {
+        Board2->unsetBlind();
+    }
+    else {
+        Board1->unsetBlind();
+    }    
+}
+

@@ -51,7 +51,7 @@ Xwindow::Xwindow(int width, int height) {
 
   XSynchronize(d,True);
 
-  usleep(1000);
+  // usleep(1000);
 
   // Make sure we don't race against the Window being shown
   XEvent ev;
