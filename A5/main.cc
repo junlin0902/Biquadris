@@ -44,7 +44,7 @@ void getPrefix(std::string cmd, int& times, std::string& newCmd) {
     int count = 0;
     while (count < len) {
         if (cmd[count] == '1' || cmd[count] == '2' || cmd[count] == '3' || cmd[count] == '4' || cmd[count] == '5' ||
-            cmd[count] == '6' || cmd[count] == '7' || cmd[count] == '8' || cmd[count] == '9' || cmd[count] == '0') {
+            cmd[count] == '6' || cmd[count] == '7' || cmd[count] == '8' || cmd[count] == '9') {
             count += 1;
         } else {
             break;
