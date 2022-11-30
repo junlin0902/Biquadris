@@ -1,7 +1,6 @@
 #ifndef _VIEW_H_
 #define _VIEW_H_
 #include "window.h"
-#include "BoardControl.h"
 #include "Board.h"
 #include <memory>
 

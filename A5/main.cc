@@ -65,7 +65,9 @@ void getPrefix(std::string cmd, int& times, std::string& newCmd) {
 int main() {
     std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>("sequence1.txt"), 
                                                                         std::make_shared<Board>("sequence2.txt"));
-    print(play);
+    // print(play);
+    play->textDisplay();
+    play->graphDisplay();
 
     std::string input;
     std::string command;
@@ -101,7 +103,9 @@ int main() {
             std::cout << "This is tie!" << std::endl;
             play->restart();
         }
-        print(play);
+        // print(play);
+        play->textDisplay();
+        play->graphDisplay();
         if (play->find_whowin() != 0) {
             std::cout << "game is end!" << std::endl;
             std::cout << "winner is player" << play->find_whowin() << std::endl;

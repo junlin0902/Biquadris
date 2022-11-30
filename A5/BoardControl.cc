@@ -1,7 +1,8 @@
 #include "BoardControl.h"
+#include "View.h"
 #include "Board.h"
 #include <iostream>
-#include "View.h"
+
 
 void BoardControl::restart() {
     Board1->reset();
@@ -204,7 +205,7 @@ void BoardControl::changeRound() {
     round = 1;
 }
 
-/*void BoardControl::textDisplay() {
+void BoardControl::textDisplay() {
     view.displayText(Board1, Board2);
 }
 
@@ -228,4 +229,4 @@ void BoardControl::removeBlind() {
     else {
         Board1->unsetBlind();
     }    
-}*/
+}

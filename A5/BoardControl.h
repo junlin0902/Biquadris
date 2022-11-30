@@ -1,8 +1,9 @@
 #ifndef _BOARDCONTROL_H_
 #define _BOARDCONTROL_H_
+#include "View.h"
 #include "Board.h"
 #include <memory>
-#include "View.h"
+
 
 class BoardControl {
     std::shared_ptr<Board> Board1;
@@ -10,12 +11,12 @@ class BoardControl {
     int round = 1;
     // 0 end    1 playerwin      2 player2win
     int whowin = 0;
-    //View view;
-    //bool graphic;
+    View view;
+    bool graphic;
 
     public:
-    BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2/*, bool g*/)
-    : Board1{Board1}, Board2{Board2}/*, view{View(g)}, graphic{g} */{
+    BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g = true)
+    : Board1{Board1}, Board2{Board2}, view{View(g)}, graphic{g} {
         Board1->createBlock();
         Board2->createBlock();
     }
