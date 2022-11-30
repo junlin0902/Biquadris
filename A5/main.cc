@@ -7,6 +7,7 @@
 #include "BoardControl.h"
 #include <sstream>
 #include <string>
+#include <map>
 
 void print(std::shared_ptr<BoardControl> player1) {
     std::cout << "Board1:" << "        " << "Board2:" << std::endl;
@@ -38,8 +39,96 @@ void print(std::shared_ptr<BoardControl> player1) {
               << " player2:" << player1->getBoard2()->getScore()->getHscore() << std::endl;
 }
 
+// command identifier
+std::string cmdIdentifier(std::string cmd) {
+    std::map<std::string, std::string> m {
+        {"lef", "left"},
+        {"left", "left"},
+        
+        {"ri", "right"},
+        {"rig", "right"},
+        {"righ", "right"},
+        {"right", "right"},
+
+        {"do", "down"},
+        {"dow", "down"},
+        {"down", "down"},
+
+        {"dr", "drop"},
+        {"dro", "drop"},
+        {"drop", "drop"},
+
+        {"cl", "rotateCW"},
+        {"clo", "rotateCW"},
+        {"cloc", "rotateCW"},
+        {"clock", "rotateCW"},
+        {"clockw", "rotateCW"},
+        {"clockwi", "rotateCW"},
+        {"clockwis", "rotateCW"},
+        {"clockwise", "rotateCW"},
+
+        {"co", "rotateAW"},
+        {"cou", "rotateAW"},
+        {"coun", "rotateAW"},
+        {"count", "rotateAW"},
+        {"counte", "rotateAW"},
+        {"counter", "rotateAW"},
+        {"counterc", "rotateAW"},
+        {"countercl", "rotateAW"},
+        {"counterclo", "rotateAW"},
+        {"countercloc", "rotateAW"},
+        {"counterclock", "rotateAW"},
+        {"counterclockw", "rotateAW"},
+        {"counterclockwi", "rotateAW"},
+        {"counterclockwis", "rotateAW"},
+        {"counterclockwise", "rotateAW"},
+
+        {"levelu", "levelup"},
+        {"levelup", "levelup"},
+
+        {"leveld", "leveldown"},
+        {"leveldo", "leveldown"},
+        {"leveldow", "leveldown"},
+        {"leveldown", "leveldown"},
+
+        {"n", "norandom"},
+        {"no", "norandom"},
+        {"nor", "norandom"},
+        {"nora", "norandom"},
+        {"noran", "norandom"},
+        {"norand", "norandom"},
+        {"norando", "norandom"},
+        {"norandom", "norandom"},
+
+        {"s", "sequence"},
+        {"se", "sequence"},
+        {"seq", "sequence"},
+        {"sequ", "sequence"},
+        {"seque", "sequence"},
+        {"sequen", "sequence"},
+        {"sequenc", "sequence"},
+        {"sequence", "sequence"},
+
+        {"re", "restart"},
+        {"res", "restart"},
+        {"rest", "restart"},
+        {"resta", "restart"},
+        {"restar", "restart"},
+        {"restart", "restart"}
+    };
+
+    auto it = m.find(cmd);
+    // find in the map
+    if (it != m.end()){
+        return it->second;
+    }
+    // cmd does not find in the map
+    return cmd;
+}
+
+
 // devide command into num and command
-void getPrefix(std::string cmd, int& times, std::string& newCmd) {
+void getPrefix(std::string cmd, int& times, std::string& newCmd , std::string& file) {
     int len = cmd.length();
     int count = 0;
     while (count < len) {
@@ -56,7 +145,12 @@ void getPrefix(std::string cmd, int& times, std::string& newCmd) {
         times = 1;
         return;
     }
-    newCmd = cmd.substr(count, len - count);
+    std::string tempCmd = cmd.substr(count, len - count);
+    // norandom + file
+    // sequence + file
+    // IJL etc..
+
+    newCmd = cmdIdentifier(tempCmd);
     ss << cmd.substr(0, count);
     ss >> times;
 }
@@ -66,15 +160,15 @@ int main() {
     std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>("sequence1.txt"), 
                                                                         std::make_shared<Board>("sequence2.txt"));
     // print(play);
-    play->textDisplay();
-    play->graphDisplay();
+    play->display();
 
     std::string input;
     std::string command;
+    std::string file;
     int times = 1;
     std::cout << "command:" << std::endl;
     while (std::cin >> input) {
-        getPrefix(input, times, command);
+        getPrefix(input, times, command, file);
         if (command == "end") {
             break;
         } else if (command == "left") {
@@ -102,10 +196,11 @@ int main() {
         } else if (command == "restart") {
             std::cout << "This is tie!" << std::endl;
             play->restart();
+        } else if (command == "-text") {
+            play->noGraph();
         }
         // print(play);
-        play->textDisplay();
-        play->graphDisplay();
+        play->display();
         if (play->find_whowin() != 0) {
             std::cout << "game is end!" << std::endl;
             std::cout << "winner is player" << play->find_whowin() << std::endl;

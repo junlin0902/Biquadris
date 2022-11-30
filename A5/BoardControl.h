@@ -36,10 +36,10 @@ class BoardControl {
     std::shared_ptr<Board> getBoard1();
     std::shared_ptr<Board> getBoard2();
     void changeRound();
-    void textDisplay();
-    void graphDisplay();
+    void display();
     void applyBlind();
     void removeBlind();
+    void noGraph();
 };
 
 #endif
