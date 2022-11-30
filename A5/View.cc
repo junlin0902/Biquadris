@@ -18,8 +18,8 @@ const int board_width = boardCols * s;          // width of a board
 const int board_height = boardRows * s;         // height of a board
 const int header_h = 4 * s;                     // height of header part
 const int footer_h = 5 * s;                     // height of footer part
-const int inner_s = 10;                       // width of space between b1 and b2
-const int outter_s = 10;                     // width of outter space 
+const int inner_s = 5 * s;                       // width of space between b1 and b2
+const int outter_s = 2.5 * s;                     // width of outter space 
 const int win_width = 2 * (board_width + outter_s) + inner_s;      // width of the entire window
 const int win_height = header_h + board_height + footer_h;     // height of the entire window
 
@@ -29,6 +29,8 @@ const int board_l2 = board_r1 + inner_s;       // left border for P2
 const int board_r2 = board_l2 + board_width;       // right border for P2
 const int board_top = header_h;            // top border
 const int board_d = board_top + board_height;     // down border
+
+const int bw = 5;       // border width
 
 // Constructor
 View::View(bool g): isGraphic{g}, xw{nullptr} {
@@ -42,11 +44,23 @@ View::View(bool g): isGraphic{g}, xw{nullptr} {
 void View::initGraph() {
     
     xw = std::make_shared<Xwindow>(win_width, win_height);
-    xw->fillRectangle(0, 0, win_width, win_height, Xwindow::Gray75);         // filled with black
+    xw->fillRectangle(0, 0, win_width, win_height, Xwindow::Gray90);         // filled with black
     
     // board 1 & 2
     // xw->fillRectangle(board_l1, board_top, board_width, board_height, Xwindow::White);
     // xw->fillRectangle(board_l2, board_top, board_width, board_height, Xwindow::White);
+
+    xw->fillRectangle(board_l1 - bw, board_top - bw, board_width + bw, bw, Xwindow::Black);
+    xw->fillRectangle(board_l1 - bw, board_top - bw, bw, board_height + bw, Xwindow::Black);
+    xw->fillRectangle(board_l1 - bw, board_d, board_width + bw, bw, Xwindow::Black);
+    xw->fillRectangle(board_r1, board_top - bw, bw, board_height + 2 * bw, Xwindow::Black);
+
+    xw->fillRectangle(board_l2 - bw, board_top - bw, board_width + bw, bw, Xwindow::Black);
+    xw->fillRectangle(board_l2 - bw, board_top - bw, bw, board_height + bw, Xwindow::Black);
+    xw->fillRectangle(board_l2 - bw, board_d, board_width + bw, bw, Xwindow::Black);
+    xw->fillRectangle(board_r2, board_top - bw, bw, board_height + 2 * bw, Xwindow::Black);
+
+
     // header & footer 
     // xw->fillRectangle(board_l1, 0, board_width, header_h - 0.5, Xwindow::White);
     // xw->fillRectangle(board_l2, 0, board_width, header_h - 0.5, Xwindow::White);
@@ -55,14 +69,14 @@ void View::initGraph() {
     // xw->fillRectangle(board_l2, board_d + 1, board_width, footer_h, Xwindow::White);
 
     // strings
-    xw->drawString(board_l1 + 1, s, "Level:");
-    xw->drawString(board_l2 + 1, s, "Level:");
-    xw->drawString(board_l1 + 1, 2 * s, "Score:");
-    xw->drawString(board_l2 + 1, 2 * s, "Score:");
-    xw->drawString(board_l1 + 1, 3 * s, "Highest Score:");
-    xw->drawString(board_l2 + 1, 3 * s, "Highest Score:");
-    xw->drawString(board_l1 + 1, board_d + s, "Next:");
-    xw->drawString(board_l2 + 1, board_d + s, "Next:");
+    xw->drawString(board_l1 + 1, s, "LEVEL:");
+    xw->drawString(board_l2 + 1, s, "LEVEL:");
+    xw->drawString(board_l1 + 1, 2 * s, "SCORE:");
+    xw->drawString(board_l2 + 1, 2 * s, "SCORE:");
+    xw->drawString(board_l1 + 1, 3 * s, "HIGHEST SCORE:");
+    xw->drawString(board_l2 + 1, 3 * s, "HIGHEST SCORE:");
+    xw->drawString(board_l1 + 1, board_d + s, "NEXT:");
+    xw->drawString(board_l2 + 1, board_d + s, "NEXT:");
 
 }
 
@@ -106,14 +120,14 @@ int colortype(char type){
 void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     // header 
      
-    xw->drawString(board_l1 + 1, s, "Level:  " + std::to_string(b1.get()->getLevel().get()->getCurlevel()));
-    xw->drawString(board_l2 + 1, s, "Level:  " + std::to_string(b2.get()->getLevel().get()->getCurlevel()));
+    xw->drawString(board_l1 + 1, s, "LEVEL:  " + std::to_string(b1.get()->getLevel().get()->getCurlevel()));
+    xw->drawString(board_l2 + 1, s, "LEVEL:  " + std::to_string(b2.get()->getLevel().get()->getCurlevel()));
 
-    xw->drawString(board_l1 + 1, 2 * s, "Score:  " + std::to_string( b1.get()->getScore().get()->getScore()));
-    xw->drawString(board_l2 + 1, 2 * s, "Score:  " + std::to_string( b2.get()->getScore().get()->getScore()));
+    xw->drawString(board_l1 + 1, 2 * s, "SCORE:  " + std::to_string( b1.get()->getScore().get()->getScore()));
+    xw->drawString(board_l2 + 1, 2 * s, "SCORE:  " + std::to_string( b2.get()->getScore().get()->getScore()));
 
-    xw->drawString(board_l1 + 1, 3 * s, "Highest Score:  " + std::to_string( b1.get()->getScore()->getHscore()));
-    xw->drawString(board_l2 + 1, 3 * s, "Highest Score:  " + std::to_string( b2.get()->getScore()->getHscore()));
+    xw->drawString(board_l1 + 1, 3 * s, "HIGHEST SCORE:  " + std::to_string( b1.get()->getScore()->getHscore()));
+    xw->drawString(board_l2 + 1, 3 * s, "HIGHEST SCORE:  " + std::to_string( b2.get()->getScore()->getHscore()));
 
     // board
     for (int i = 0; i < boardRows; i++){
@@ -151,7 +165,7 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
                     xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d + (i * s), w, w, color);
             }
             else {
-                xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d  + (i * s), w, w, Xwindow::Gray75);
+                xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d  + (i * s), w, w, Xwindow::Gray90);
             }
             // board 2
             if (b2.get()->getNextBlock().get()->findPos(j, i)){
@@ -159,7 +173,7 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
                     xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + (i * s), w, w, color);
             }
             else {
-                xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + (i * s), w, w, Xwindow::Gray75);
+                xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + (i * s), w, w, Xwindow::Gray90);
             }
        } 
     }

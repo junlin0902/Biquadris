@@ -31,10 +31,10 @@ Xwindow::Xwindow(int width, int height) {
   // Set up colours.
   XColor xcolour;
   Colormap cmap;
-  char color_vals[11][20]={"white", "black", "deeppink1", "greenyellow", "blue", "cyan", "yellow", "indianred1", "orange", "blueviolet", "gray75"};
+  char color_vals[12][20]={"white", "black", "deeppink1", "greenyellow", "blue", "cyan", "yellow", "indianred1", "orange", "blueviolet", "gray75", "gray90"};
 
   cmap=DefaultColormap(d,DefaultScreen(d));
-  for(int i=0; i < 11; ++i) {
+  for(int i=0; i < 12; ++i) {
       XParseColor(d,cmap,color_vals[i],&xcolour);
       XAllocColor(d,cmap,&xcolour);
       colours[i]=xcolour.pixel;
@@ -76,5 +76,9 @@ void Xwindow::drawString(int x, int y, string msg, int colour) {
   XSetForeground(d, gc, colours[colour]);
   XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
   XSetForeground(d, gc, colours[Black]);
+}
+
+void Xwindow::drawLine(int x1, int y1, int x2, int y2) {
+  XDrawLine(d, w, gc, x1, y1, x2, y2);
 }
 
