@@ -36,24 +36,39 @@ void BoardControl::rotateAW(int times) {
 void BoardControl::left(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            Board1->left();
+            //只有是heavy的情况下board::right可能会return false
+            if (Board1->left() == false) {
+                changeRound();
+                return;
+            } 
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-            Board2->left();
+            //只有是heavy的情况下board::right可能会return false
+            if (Board2->left() == false) {
+                changeRound();
+                return;
+            } 
     }
 }
 
 void BoardControl::right(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            Board1->right();
+            //只有是heavy的情况下board::right可能会return false
+            if (Board1->right() == false) {
+                changeRound();
+                return;
+            }  
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-            Board2->right();
+        if (Board2->right() == false) {
+            changeRound();
+            return;
+        }  
     }
 }
 
@@ -70,7 +85,7 @@ void BoardControl::drop() {
 void BoardControl::down(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            if (!Board1->down()) {
+            if ((Board1->down() == 2)) {
                 changeRound();
                 return;
             }
@@ -78,7 +93,7 @@ void BoardControl::down(int times) {
         return;
     }
     for (int i = 0; i < times; i++) {
-        if (!Board2->down()) {
+        if ((Board2->down() == 2)) {
             changeRound();
             return;
         }

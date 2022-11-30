@@ -23,6 +23,10 @@ std::shared_ptr<Score> Board::getScore() {return score;}
 int Board::totalBlock() {return num_block;}
 
 void Board::createBlock() {
+    if (endgame()) {
+        std::cout << "end!" << std::endl;
+        return;
+    }
     if (cur_block == nullptr) {
         cur_block = level->createBlock();
         cells.push_back(cur_block);
@@ -64,13 +68,13 @@ char Board::findType(int& x, int& y) {
     return ' ';
 }
 
-void Board::left() {
+bool Board::left() {
     cur_block->left();
     // if out of index;
     for (int i = 0; i < 4; i++) {
         if (cur_block->getVectorPosn()[cur_block->findIndex()][i].x < 0) {
             cur_block->right();
-            return;
+            return true;
         }
     }
 
@@ -87,17 +91,24 @@ void Board::left() {
         }
         if (count >= 2) {
             cur_block->right();
-            return;
+            return true;
         }
     }
+    //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
+    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+        if (this->down() == 2) {
+            return false;
+        }
+    }
+    return true;  
 }
 
-void Board::right() {
+bool Board::right() {
     cur_block->right();
     for (int i = 0; i < 4; i++) {
         if (cur_block->getVectorPosn()[cur_block->findIndex()][i].x > 10) {
             cur_block->left();
-            return;
+            return true;
         }
     }
     for (int i = 0; i < 4; i++) {
@@ -110,25 +121,35 @@ void Board::right() {
         }
         if (count >= 2) {
             cur_block->left();
-            return;
+            return true;
         }
     }
+    //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
+    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+        if (this->down() == 2) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void Board::drop() {
-    while (down()) {}
+    while (down() == 1) {}
+    createBlock();
 }
 
-bool Board::down() {
+int Board::down() {
     cur_block->down();
+    //检查有没有out of range
     for (int i = 0; i < 4; i++) {
         if (cur_block->getVectorPosn()[cur_block->findIndex()][i].y > 17) {
             cur_block->up();
             // end current turn
-            createBlock();
-            return false;
+            //createBlock();
+            return 0;
         }
     }
+    //检查有没有做出一个成功的down
     for (int i = 0; i < 4; i++) {
         int count = 0;
         for (auto& selectedblock : cells) {
@@ -139,19 +160,22 @@ bool Board::down() {
         }
         if (count >= 2) {
             cur_block->up();
-            createBlock();
-            return false;
+            // createBlock();
+            return 0;
         }
     }
 
     //判断更新完curr block底下有没有别的block
+    //没必要createblock,createblock是drop的工作
+    //特殊情况：如果是有heavy的情况下，down会自动检查curr block底下有没有别的block，如果有自动createblock，然后return false
+    
     cur_block->down();
     bool block_under = false;
     for (int i = 0; i < 4; i++) {
         int count = 0;
         for (auto& selectedblock : cells) {
             if (selectedblock->findPos(cur_block->getVectorPosn()[cur_block->findIndex()][i].x, 
-                                       cur_block->getVectorPosn()[cur_block->findIndex()][i].y)) {
+                                    cur_block->getVectorPosn()[cur_block->findIndex()][i].y)) {
                 count += 1;
             }          
         }
@@ -161,10 +185,18 @@ bool Board::down() {
     }
     cur_block->up();
     if (block_under == true) {
-        createBlock();
-        return false;
+        //如果是有heavy的情况下如果curr block底下有别的block,自动createblock
+        if (cur_block->getHeavyLevel() > 0) {
+            createBlock();
+            //在heavy的情况下如果当底下有block
+            return 2;
+        }
+        //在不是heavy的情况下如果当底下有block
+        return 0;
     }
-    return true;
+    
+    //如果底下没block
+    return 1;
 }
 
 void Board::rotateCW() {
@@ -262,3 +294,15 @@ void Board::reset() {
     next_block = level->createBlock();
     score->restart();
 }
+
+bool Board::endgame() {
+    for (auto& selectedblock : cells) {
+        for (int i = 0; i < 4; i++) {
+            if (selectedblock->getVectorPosn()[selectedblock->findIndex()][i].y == 3) {
+                return true;
+            }          
+        }
+    }
+    return false;
+}    
+

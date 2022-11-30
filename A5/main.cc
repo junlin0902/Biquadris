@@ -7,8 +7,8 @@
 #include "BoardControl.h"
 
 void print(BoardControl player1) {
-    std::cout << "Board1:" << std::endl;
-    std::cout << "+-----------+" << std::endl;
+    std::cout << "Board1:" << "        " << "Board2:" << std::endl;
+    std::cout << "+-----------+" << "  " << "+-----------+" << std::endl;
     for (int i = 0; i < 18; i++) {
         std::cout << '|';
         for (int j = 0; j < 11; j++) {
@@ -16,34 +16,87 @@ void print(BoardControl player1) {
                 std::cout << player1.getBoard1()->findType(j, i);
             } else {std::cout << ' ';}
         }
-        std::cout << '|' << std::endl;
-    }
-    std::cout << "+-----------+" << std::endl;
-    std::cout << "Board2:" << std::endl;
-    std::cout << "+-----------+" << std::endl;
-    for (int i = 0; i < 18; i++) {
+        std::cout << '|' << "  ";
+
+        //second board
         std::cout << '|';
         for (int j = 0; j < 11; j++) {
             if (player1.getBoard2()->findPos(j, i)) {
                 std::cout << player1.getBoard2()->findType(j, i);
             } else {std::cout << ' ';}
         }
-        std::cout << '|' << std::endl;
+        std::cout << '|' << std::endl;        
     }
-    std::cout << "+-----------+" << std::endl;
+    std::cout << "+-----------+" << "  " << "+-----------+" << std::endl;
+
 }
 
 int main() {
-    BoardControl play = BoardControl(std::make_shared<Board>("sequence1.txt"), std::make_shared<Board>("sequence2.txt"));
+    std::string in1 = "sequence1.txt";
+    std::string in2 = "sequence2.txt";
+    BoardControl play = BoardControl(std::make_shared<Board>(in1), std::make_shared<Board>(in2));
+    print(play);
+
+    play.right(20);
+    print(play);
+    play.down(20);
+    play.left(1);
     print(play);
     play.drop();
-    //play.levelup(1);
+    play.right(4);
+    print(play);
+    play.left(20);
     play.drop();
+    print(play);
+    play.getBoard1()->heavy();
+    play.right(1);
     print(play);
     play.right(4);
+    print(play);
+    play.right(1);
+    print(play);
+    play.right(1);
+    print(play);
+    play.down(20);
+    print(play);
+    play.right(20);
+    print(play);
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
     play.drop();
     play.drop();
     print(play);
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.drop();
+    play.right(1);
+    play.drop();
+    print(play);
+    // play.drop();
+    // play.levelup(1);
+    // play.drop();
+    // print(play);
+    // play.right(4);
+    // play.drop();
+    // play.drop();
+    // print(play);
+    // play.getBoard1()->heavy();
+    // print(play);
+    // play.right(1);
+    // print(play);
+    // play.right(1);
+    // print(play);
+    // play.right(1);
+    // print(play);
 
     /*play.drop();
     play.levelup(1);

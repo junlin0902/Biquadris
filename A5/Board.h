@@ -43,10 +43,10 @@ class Board {
     bool findPos(int& x, int& y);
     char findType(int& x, int& y);
 
-    void left();
-    void right();
+    bool left(); //如果在heavy的情况下down不下去了 is false, else true
+    bool right();
     void drop();
-    bool down();
+    int down(); //1 is true, 0 is false, 2 is false under heavy mode
     void rotateCW();
     void rotateAW();
 
@@ -54,6 +54,8 @@ class Board {
     void heavy();
     void force(char type);
     void reset();
+
+    bool endgame();
 };
 
 
