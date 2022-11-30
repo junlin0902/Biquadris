@@ -17,7 +17,7 @@ void BoardControl::rotateCW(int times) {
         return;
     }
     for (int i = 0; i < times; i++) {
-            Board2->rotateCW();
+        Board2->rotateCW();
     }
 }
 
@@ -100,6 +100,22 @@ void BoardControl::down(int times) {
     }
 }
 
+void BoardControl::heavy() {
+    if (round == 1) {
+        Board2->heavy();
+        return;
+    }
+    Board1->heavy(); 
+}
+
+void BoardControl::force(char block) {
+    if (round == 1) {
+        Board2->force(block);
+        return;
+    }
+    Board1->force(block);
+}
+
 void BoardControl::levelup(int num) {
     if (round == 1) {
         int curLevel = Board1->getLevel()->getCurlevel();
@@ -114,6 +130,8 @@ void BoardControl::levelup(int num) {
         } else if (curLevel + num >= 4) {
             Board1->setLevel(std::make_shared<Level4>("sequence1.txt"));
         }
+        Board1->getScore()->setLevel(Board1->getLevel());
+        return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
     if (curLevel + num <= 0) {
@@ -127,6 +145,7 @@ void BoardControl::levelup(int num) {
     } else if (curLevel + num >= 4) {
         Board2->setLevel(std::make_shared<Level4>("sequence2.txt"));
     }
+    Board2->getScore()->setLevel(Board2->getLevel());
 }
 
 void BoardControl::leveldown(int num) {
@@ -143,6 +162,8 @@ void BoardControl::leveldown(int num) {
         } else if (curLevel - num >= 4) {
             Board1->setLevel(std::make_shared<Level4>("sequence1.txt"));
         }
+        Board1->getScore()->setLevel(Board1->getLevel());
+        return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
     if (curLevel - num <= 0) {
@@ -156,6 +177,7 @@ void BoardControl::leveldown(int num) {
     } else if (curLevel - num >= 4) {
         Board2->setLevel(std::make_shared<Level4>("sequence2.txt"));
     }
+    Board2->getScore()->setLevel(Board2->getLevel());
 }
 
 void BoardControl::switchRandom() {
@@ -166,6 +188,7 @@ void BoardControl::switchRandom() {
     Board2->getLevel()->changeRandom();
 }
 
+int BoardControl::find_whowin() {return whowin;}
 
 std::shared_ptr<Board> BoardControl::getBoard1() {return Board1;}
 

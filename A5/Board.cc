@@ -201,6 +201,13 @@ int Board::down() {
 
 void Board::rotateCW() {
     cur_block->rotateCW();
+    // if out of index
+    for (int i = 0; i < 4; i++) {
+        if (cur_block->getVectorPosn()[cur_block->findIndex()][i].x > 10) {
+            cur_block->rotateAW();
+            return;
+        }
+    }
     for (int i = 0; i < 4; i++) {
         int count = 0;
         for (auto& selectedblock : cells) {
@@ -218,6 +225,12 @@ void Board::rotateCW() {
 
 void Board::rotateAW() {
     cur_block->rotateAW();
+    for (int i = 0; i < 4; i++) {
+        if (cur_block->getVectorPosn()[cur_block->findIndex()][i].x > 10) {
+            cur_block->rotateCW();
+            return;
+        }
+    }
     for (int i = 0; i < 4; i++) {
         int count = 0;
         for (auto& selectedblock : cells) {
@@ -296,12 +309,16 @@ void Board::reset() {
 }
 
 bool Board::endgame() {
+    int count = 0;
     for (auto& selectedblock : cells) {
         for (int i = 0; i < 4; i++) {
-            if (selectedblock->getVectorPosn()[selectedblock->findIndex()][i].y == 3) {
-                return true;
+            if (selectedblock->getVectorPosn()[selectedblock->findIndex()][i].y <= 3) {
+                count += 1;
             }          
         }
+    }
+    if (count > 4) {
+        return true;
     }
     return false;
 }    

@@ -18,6 +18,4 @@ void Score::cleanRow(int numRow) {
     }
 }
 
-void Score::addScore(int num) {score += num;}
-
 void Score::restart() {score = 0;}

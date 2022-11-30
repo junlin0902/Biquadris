@@ -19,7 +19,6 @@ class Score {
     void setLevel(std::shared_ptr<Level> newLevel);
 
     void cleanRow(int numRow);
-    void addScore(int num);
     void restart();
 };
 

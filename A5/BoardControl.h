@@ -8,6 +8,8 @@ class BoardControl {
     std::shared_ptr<Board> Board1;
     std::shared_ptr<Board> Board2;
     int round = 1;
+    // 0 end    1 playerwin      2 player2win
+    int whowin = 0;
     //View view;
     //bool graphic;
 
@@ -24,9 +26,12 @@ class BoardControl {
     void right(int times);
     void drop();
     void down(int times);
+    void heavy();
+    void force(char block);
     void levelup(int num);
     void leveldown(int num);
     void switchRandom();
+    int find_whowin();
     std::shared_ptr<Board> getBoard1();
     std::shared_ptr<Board> getBoard2();
     void changeRound();
