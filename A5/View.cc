@@ -1,6 +1,5 @@
 #include "View.h"
 #include "window.h"
-#include "BoardControl.h"
 #include "Board.h"
 #include "Block.h"
 #include <iomanip>
@@ -10,17 +9,17 @@
 
 
 // required board size
-const int boardRows = 15;
-const int totalRows = 18;
+const int boardRows = 18;
+const int totalRows = 21;
 const int boardCols = 11;
 const int s = 20;                               // side length of 1 single block
 const float w = s - 0.01;
 const int board_width = boardCols * s;          // width of a board
 const int board_height = boardRows * s;         // height of a board
-const int header_h = 3 * s;                     // height of header part
+const int header_h = 4 * s;                     // height of header part
 const int footer_h = 5 * s;                     // height of footer part
-const int inner_s = 5;                       // width of space between b1 and b2
-const int outter_s = 5;                     // width of outter space 
+const int inner_s = 10;                       // width of space between b1 and b2
+const int outter_s = 10;                     // width of outter space 
 const int win_width = 2 * (board_width + outter_s) + inner_s;      // width of the entire window
 const int win_height = header_h + board_height + footer_h;     // height of the entire window
 
@@ -43,23 +42,25 @@ View::View(bool g): isGraphic{g}, xw{nullptr} {
 void View::initGraph() {
     
     xw = std::make_shared<Xwindow>(win_width, win_height);
-    xw->fillRectangle(0, 0, win_width, win_height);         // filled with black
+    xw->fillRectangle(0, 0, win_width, win_height, Xwindow::Gray75);         // filled with black
     
     // board 1 & 2
-    xw->fillRectangle(board_l1, board_top, board_width, board_height, Xwindow::White);
-    xw->fillRectangle(board_l2, board_top, board_width, board_height, Xwindow::White);
+    // xw->fillRectangle(board_l1, board_top, board_width, board_height, Xwindow::White);
+    // xw->fillRectangle(board_l2, board_top, board_width, board_height, Xwindow::White);
     // header & footer 
-    xw->fillRectangle(board_l1, 0, board_width, header_h - 0.5, Xwindow::White);
-    xw->fillRectangle(board_l2, 0, board_width, header_h - 0.5, Xwindow::White);
+    // xw->fillRectangle(board_l1, 0, board_width, header_h - 0.5, Xwindow::White);
+    // xw->fillRectangle(board_l2, 0, board_width, header_h - 0.5, Xwindow::White);
 
-    xw->fillRectangle(board_l1, board_d + 1, board_width, footer_h, Xwindow::White);
-    xw->fillRectangle(board_l2, board_d + 1, board_width, footer_h, Xwindow::White);
+    // xw->fillRectangle(board_l1, board_d + 1, board_width, footer_h, Xwindow::White);
+    // xw->fillRectangle(board_l2, board_d + 1, board_width, footer_h, Xwindow::White);
 
     // strings
     xw->drawString(board_l1 + 1, s, "Level:");
     xw->drawString(board_l2 + 1, s, "Level:");
     xw->drawString(board_l1 + 1, 2 * s, "Score:");
     xw->drawString(board_l2 + 1, 2 * s, "Score:");
+    xw->drawString(board_l1 + 1, 3 * s, "Highest Score:");
+    xw->drawString(board_l2 + 1, 3 * s, "Highest Score:");
     xw->drawString(board_l1 + 1, board_d + s, "Next:");
     xw->drawString(board_l2 + 1, board_d + s, "Next:");
 
@@ -75,22 +76,22 @@ int colortype(char type){
         return Xwindow::Blue;
 
     case 'J':
-        return Xwindow::Brown;
+        return Xwindow::BlueViolet;
 
     case 'L':
         return Xwindow::Cyan;
 
     case 'O':
-        return Xwindow::Green;
+        return Xwindow::GreenYellow;
 
     case 'S':
-        return Xwindow::Magenta;
+        return Xwindow::Indianred1;
 
     case 'Z':
        return Xwindow::Orange;
     
     case 'T':
-        return Xwindow::Red;
+        return Xwindow::DeepPink1;
     
     case '*':
         return Xwindow::Black;
@@ -111,6 +112,9 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     xw->drawString(board_l1 + 1, 2 * s, "Score:  " + std::to_string( b1.get()->getScore().get()->getScore()));
     xw->drawString(board_l2 + 1, 2 * s, "Score:  " + std::to_string( b2.get()->getScore().get()->getScore()));
 
+    xw->drawString(board_l1 + 1, 3 * s, "Highest Score:  " + std::to_string( b1.get()->getScore()->getHscore()));
+    xw->drawString(board_l2 + 1, 3 * s, "Highest Score:  " + std::to_string( b2.get()->getScore()->getHscore()));
+
     // board
     for (int i = 0; i < boardRows; i++){
         int color = 0;
@@ -118,7 +122,7 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         for (int j = 0; j < boardCols; j++){
             // blind && in the range -> black
             if ((b1->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
-                xw->fillRectangle(board_l1 + (j * s), board_top + (i * s), w, w, Xwindow::Black);
+                xw->fillRectangle(board_l1 + (j * s), board_top + (i * s), w, w, Xwindow::Gray75);
             }
             else {
                 color = colortype(b1.get()->findType(j, i));
@@ -128,7 +132,7 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         // board 2
         for (int j = 0; j < boardCols; j++){
             if ((b2->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
-                xw->fillRectangle(board_l2 + (j * s), board_top + (i * s), w, w, Xwindow::Black);
+                xw->fillRectangle(board_l2 + (j * s), board_top + (i * s), w, w, Xwindow::Gray75);
             }
             else {
                 color = colortype(b2.get()->findType(j, i));
@@ -138,19 +142,25 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     }
 
     // Next Block:
-    for (int i = 0; i < 4; i++){
+    for (int i = 2; i < 4; i++){
         int color;
         for (int j = 0; j < 4; j++){
         // board 1 next block
             if (b1.get()->getNextBlock().get()->findPos(j, i)){
                     color = colortype(b1->getNextBlock().get()->blockType());
-                    xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d + s + (i * s), w, w, color);
+                    xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d + (i * s), w, w, color);
+            }
+            else {
+                xw->fillRectangle(board_l1 + 5 * s + (j * s), board_d  + (i * s), w, w, Xwindow::Gray75);
             }
             // board 2
             if (b2.get()->getNextBlock().get()->findPos(j, i)){
                     color = colortype(b2->getNextBlock().get()->blockType());
-                    xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + s + (i * s), w, w, color);
-        }
+                    xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + (i * s), w, w, color);
+            }
+            else {
+                xw->fillRectangle(board_l2 + 5 * s + (j * s), board_d + (i * s), w, w, Xwindow::Gray75);
+            }
        } 
     }
 }
@@ -166,6 +176,11 @@ void View::displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     std::cout << "Score:" << std::setw(5) << b1->getScore()->getScore();
     std::cout << "          " ;
     std::cout << "Score:" << std::setw(5) << b2->getScore()->getScore();
+    std::cout << std::endl;
+
+    std::cout << "HiScore:" << std::setw(3) << b1->getScore()->getHscore();
+    std::cout << "          " ;
+    std::cout << "HiScore:" << std::setw(3) << b2->getScore()->getHscore();
     std::cout << std::endl;
 
     std::cout << "-----------          -----------" << std::endl;
@@ -202,8 +217,9 @@ void View::displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     // Next block
     std::cout << "-----------          -----------" << std::endl;
     std::cout << "Next:                Next:      " << std::endl;
-    for (int i = 0; i < 4; i++){
+    for (int i = 2; i < 4; i++){
         // next block for board 1
+        std::cout << "      ";
         for (int j = 0; j < 4; j++){
             // there is something in this posn
             if (b1->getNextBlock().get()->findPos(j, i)){
