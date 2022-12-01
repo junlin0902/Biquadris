@@ -212,7 +212,6 @@ void BoardControl::display() {
     view.displayText(Board1, Board2);
 }
 
-
 void BoardControl::applyBlind() {
     if (round == 1){
         Board2->setBlind();
