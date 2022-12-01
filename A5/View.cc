@@ -119,7 +119,7 @@ int colortype(char type){
 
 void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     // header 
-     
+    xw->fillRectangle(0, 0, win_width, header_h - bw, Xwindow::Gray90);
     xw->drawString(board_l1 + 1, s, "LEVEL:  " + std::to_string(b1.get()->getLevel().get()->getCurlevel()));
     xw->drawString(board_l2 + 1, s, "LEVEL:  " + std::to_string(b2.get()->getLevel().get()->getCurlevel()));
 
@@ -135,7 +135,7 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         // board 1
         for (int j = 0; j < boardCols; j++){
             // blind && in the range -> black
-            if ((b1->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+            if ((b1->getBlind()) && ((i >= 5) && (i < 15)) && ((j >= 2) && (j < 9))){
                 xw->fillRectangle(board_l1 + (j * s), board_top + (i * s), w, w, Xwindow::Gray75);
             }
             else {
@@ -145,7 +145,7 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         }
         // board 2
         for (int j = 0; j < boardCols; j++){
-            if ((b2->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+            if ((b2->getBlind()) && ((i >= 5) && (i < 15)) && ((j >= 2) && (j < 9))){
                 xw->fillRectangle(board_l2 + (j * s), board_top + (i * s), w, w, Xwindow::Gray75);
             }
             else {
@@ -204,7 +204,7 @@ void View::displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         // board 1
         for (int j = 0; j < boardCols; j++){
             // blind && in the range -> cout '?'
-            if ((b1->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+            if ((b1->getBlind()) && ((i >= 5) && (i < 15)) && ((j >= 2) && (j < 9))){
                 std::cout << '?';
             }
             else {
@@ -217,7 +217,7 @@ void View::displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         // board 2
         for (int j = 0; j < boardRows; j++){
             // blind && in the range -> cout '?'
-            if ((b2->getBlind()) && ((i >= 3) && (i <= 12)) && ((j >= 3) && (j <= 9))){
+            if ((b2->getBlind()) && ((i >= 5) && (i <= 15)) && ((j >= 2) && (j < 9))){
                 std::cout << '?';
             }
             else {
@@ -276,19 +276,23 @@ void View::endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
 
     // graphic version
     if (isGraphic){
+        xw->fillRectangle(board_l1 + inner_s - bw, board_top + header_h - bw, board_width * 2 - inner_s + 2 * bw, bw);
+        xw->fillRectangle(board_l1 + inner_s - bw, board_top + 4 * header_h, board_width * 2 - inner_s + 2 * bw, bw);
+        xw->fillRectangle(board_l1 + inner_s - bw, board_top + header_h - bw, bw, 3 * header_h + 2 * bw);
+        xw->fillRectangle(board_l1 + board_width * 2 , board_top + header_h - bw, bw, 3 * header_h + 2 * bw);
+        
+
         xw->fillRectangle(board_l1 + inner_s, board_top + header_h, board_width * 2 - inner_s , 3 * header_h, Xwindow::White);
-        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + s, "Play 1 highest Score" + score_1);
-        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 2 * s, "Play 2 highest Score" + score_2);
-        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 3 * s, win);
+        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 2 * s, "Player 1 Highest Score" + std::to_string(score_1));
+        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 4 * s, "Player 2 Highest Score" + std::to_string(score_2));
+        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 6 * s, win);
         
     }
     // text version
-    else {
         std::cout << "-----------          -----------" << std::endl;
-        std::cout << "Highest Score:    Highest Score:" << std::endl;
-        std::cout << score_1 << std::setw(11) << score_2 << std::endl;
+        std::cout << " Hi Score:            HiScore:" << std::endl;
+        std::cout << " " << score_1 << std::setw(21) << score_2 << std::endl;
         std::cout << std::endl;
         std::cout << win << std::endl;
         std::cout << "-----------          -----------" << std::endl;
-    }
 }

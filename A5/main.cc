@@ -200,7 +200,13 @@ int main(int argc, const char *argv[]) {
         getPrefix(input, times, command);
         command = cmdIdentifier(command);
         if (command == "end") {
-            break;
+            char end;
+            play->endgame();
+            std::cout << "Press q to exit." << std::endl;
+            std::cin >> end;
+            if (end == 'q') {
+                break;
+            }
         } else if (command == "left") {
             try {
                 play->left(times);
@@ -262,23 +268,32 @@ int main(int argc, const char *argv[]) {
             
             std::cout << "Game is end!" << std::endl;
             // who win here
-            int s1 = play->getBoard1()->getScore()->getScore();
+            /*int s1 = play->getBoard1()->getScore()->getScore();
             int s2 = play->getBoard2()->getScore()->getScore();
             std::cout << "Score for player1: " << s1 << std::endl;
             std::cout << "Score for player2: " << s2 << std::endl;
             if (s1 > s2) {std::cout << "WINNER is player1!!" << std::endl;}
             else if (s1 < s2) {std::cout << "WINNER is player2!!" << std::endl;}
             else {std::cout << "This is tie!" << std::endl;}
-            std::cout << std::endl;
+            std::cout << std::endl;*/
 
             std::cout << "Choose restart or end?" << std::endl;
             std::cin >> cmd;
             if (cmd == "restart") {
                 play->restart();
                 play->display();
-            } else {break;}
+            } else {
+                // testing purpose
+                char end;
+                play->endgame();
+                std::cout << "Press q to exit." << std::endl;
+                std::cin >> end;
+                if (end == 'q') {
+                    break;
+                }
+            }
         }
         std::cout << "command:" << std::endl;
-    }
+    }  // while
     std::cout << "Thanks for enjoying Biquadris!" << std::endl;
 }

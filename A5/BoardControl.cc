@@ -277,9 +277,9 @@ void BoardControl::changeRound() {
 
 void BoardControl::display() {
     if (graphic) {
-        view.displayGraph(Board1, Board2);
+        view->displayGraph(Board1, Board2);
     }
-    view.displayText(Board1, Board2);
+    view->displayText(Board1, Board2);
 }
 
 void BoardControl::applyBlind() {
@@ -306,3 +306,7 @@ void BoardControl::noGraph() {
 }
 
 void BoardControl::setSeed(int num) {seed = num;}
+
+void BoardControl::endgame() {
+    view->endGame(Board1, Board2);
+}

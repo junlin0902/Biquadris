@@ -9,13 +9,14 @@ class BoardControl {
     std::shared_ptr<Board> Board1;
     std::shared_ptr<Board> Board2;
     int round = 1;
-    View view; //should change to smart pointer here
+    std::shared_ptr<View> view;
+    // View view; //should change to smart pointer here
     bool graphic;
     int seed = 0;
 
     public:
     BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g = true)
-    : Board1{Board1}, Board2{Board2}, view{View(g)}, graphic{g} {
+    : Board1{Board1}, Board2{Board2}, view{std::make_shared<View>(g)}, graphic{g} {
         Board1->createBlock();
         Board2->createBlock();
     }
@@ -40,6 +41,7 @@ class BoardControl {
     void removeBlind();
     void noGraph();
     void setSeed(int num);
+    void endgame();
 };
 
 #endif
