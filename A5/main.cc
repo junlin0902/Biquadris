@@ -128,7 +128,7 @@ std::string cmdIdentifier(std::string cmd) {
 
 
 // devide command into num and command
-void getPrefix(std::string cmd, int& times, std::string& newCmd , std::string& file) {
+void getPrefix(std::string cmd, int& times, std::string& newCmd , std::string& xxx) {
     int len = cmd.length();
     int count = 0;
     while (count < len) {
@@ -140,19 +140,25 @@ void getPrefix(std::string cmd, int& times, std::string& newCmd , std::string& f
         }
     }
     std::stringstream ss;
+    // no prefix
     if (count == 0) {
-        newCmd = cmd;
+        // newCmd = cmd;
         times = 1;
-        return;
+        // return;
     }
+    else {
+        ss << cmd.substr(0, count);
+        ss >> times;
+    }
+
     std::string tempCmd = cmd.substr(count, len - count);
-    // norandom + file
-    // sequence + file
-    // IJL etc..
+    std::string x;
+    std::stringstream cm {tempCmd};
+    cm >> tempCmd >> x;
 
     newCmd = cmdIdentifier(tempCmd);
-    ss << cmd.substr(0, count);
-    ss >> times;
+    xxx = x;
+    
 }
 
 
@@ -164,11 +170,11 @@ int main() {
 
     std::string input;
     std::string command;
-    std::string file;
+    std::string xxx;        // might be file, seed, number etc..
     int times = 1;
     std::cout << "command:" << std::endl;
     while (std::cin >> input) {
-        getPrefix(input, times, command, file);
+        getPrefix(input, times, command, xxx);
         if (command == "end") {
             break;
         } else if (command == "left") {
@@ -198,6 +204,18 @@ int main() {
             play->restart();
         } else if (command == "-text") {
             play->noGraph();
+        } else if (command == "-seed") {
+
+        } else if (command == "-scriptfile1") {
+
+        } else if (command == "-scriptfile2") {
+
+        } else if (command == "-startlevel") {
+
+        }
+
+        else {
+            std::cout << "Invalid Input!" << std::endl;
         }
         // print(play);
         play->display();
