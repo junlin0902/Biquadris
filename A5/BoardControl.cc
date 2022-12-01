@@ -125,15 +125,16 @@ void BoardControl::levelup(int num) {
         } else if (curLevel + num == 2) {
             Board1->setLevel(std::make_shared<Level2>());
         } else if (curLevel + num == 3) {
-            Board1->setLevel(std::make_shared<Level3>("sequence1.txt"));
-            Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 2);
-            Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 2);
+            Board1->setLevel(std::make_shared<Level3>(Board1->getLevel()->getFilename()));
+            Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 1);
+            Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
         } else if (curLevel + num >= 4) {
-            Board1->setLevel(std::make_shared<Level4>("sequence1.txt"));
-            Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 2);
-            Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 2);
+            Board1->setLevel(std::make_shared<Level4>(Board1->getLevel()->getFilename()));
+            Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 1);
+            Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
         }
         Board1->getScore()->setLevel(Board1->getLevel());
+        Board1->getLevel()->setSeed(seed);
         return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
@@ -142,54 +143,63 @@ void BoardControl::levelup(int num) {
     } else if (curLevel + num == 2) {
         Board2->setLevel(std::make_shared<Level2>());
     } else if (curLevel + num == 3) {
-        Board2->setLevel(std::make_shared<Level3>("sequence2.txt"));
-        Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 2);
-        Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 2);
+        Board2->setLevel(std::make_shared<Level3>(Board2->getLevel()->getFilename()));
+        Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 1);
+        Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
     } else if (curLevel + num >= 4) {
-        Board2->setLevel(std::make_shared<Level4>("sequence2.txt"));
-        Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 2);
-        Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 2);
+        Board2->setLevel(std::make_shared<Level4>(Board2->getLevel()->getFilename()));
+        Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 1);
+        Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
     }
     Board2->getScore()->setLevel(Board2->getLevel());
+    Board2->getLevel()->setSeed(seed);
 }
 
 void BoardControl::leveldown(int num) {
     if (round == 1) {
         int curLevel = Board1->getLevel()->getCurlevel();
         if (curLevel - num <= 0) {
-            Board1->setLevel(std::make_shared<Level0>("sequence1.txt"));
+            Board1->setLevel(std::make_shared<Level0>(Board1->getLevel()->getFilename()));
         } else if (curLevel - num == 1) {
             Board1->setLevel(std::make_shared<Level1>());
         } else if (curLevel - num == 2) {
             Board1->setLevel(std::make_shared<Level2>());
         } else if (curLevel - num == 3) {
-            Board1->setLevel(std::make_shared<Level3>("sequence1.txt"));
+            Board1->setLevel(std::make_shared<Level3>(Board1->getLevel()->getFilename()));
         }
         Board1->getScore()->setLevel(Board1->getLevel());
+        Board1->getLevel()->setSeed(seed);
         return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
     if (curLevel - num <= 0) {
-        Board2->setLevel(std::make_shared<Level0>("sequence2.txt"));
+        Board2->setLevel(std::make_shared<Level0>(Board2->getLevel()->getFilename()));
     } else if (curLevel - num == 1) {
         Board2->setLevel(std::make_shared<Level1>());
     } else if (curLevel - num == 2) {
         Board2->setLevel(std::make_shared<Level2>());
     } else if (curLevel - num == 3) {
-        Board2->setLevel(std::make_shared<Level3>("sequence2.txt"));
+        Board2->setLevel(std::make_shared<Level3>(Board2->getLevel()->getFilename()));
     }
     Board2->getScore()->setLevel(Board2->getLevel());
+    Board2->getLevel()->setSeed(seed);
 }
 
-void BoardControl::switchRandom() {
+void BoardControl::norandom() {
     if (round == 1) {
-        Board1->getLevel()->changeRandom();
+        Board1->getLevel()->norandom();
         return;
     }
-    Board2->getLevel()->changeRandom();
+    Board1->getLevel()->norandom();
 }
 
-int BoardControl::find_whowin() {return whowin;}
+void BoardControl::random() {
+    if (round == 1) {
+        Board1->getLevel()->random();
+        return;
+    }
+    Board1->getLevel()->random();
+}
 
 std::shared_ptr<Board> BoardControl::getBoard1() {return Board1;}
 
@@ -197,11 +207,71 @@ std::shared_ptr<Board> BoardControl::getBoard2() {return Board2;}
 
 void BoardControl::changeRound() {
     if (round == 1) {
-        Board1->cleanRow();
+        Board1->unsetBlind();
+        // special action
+        int row = Board1->cleanRow();
+        if (row != 0 && Board1->getLevel()->getCurlevel() == 4) {Board1->getLevel()->resetRound();}
+        if (Board1->getLevel()->ifstar() && Board1->getLevel()->getCurlevel() == 4) {
+            std::shared_ptr<Block> star = std::make_shared<Star_block>();
+            Board1->addCells(star);
+            Board1->setCurBlock(star);
+            // this drop has prob
+            Board1->drop();
+            Board1->getLevel()->resetRound();
+        }
+        if (row >= 2) {
+            display();
+            std::cout << "You have a chance to select special actions!" << std::endl;
+            std::cout << "Choose one of blind, heavy, or force to your opponent!" << std::endl;
+            std::string command;
+            std::cin >> command;
+            if (command[0] == 'b') {
+                applyBlind();
+            } else if (command[0] == 'h') {
+                heavy();
+            } else if (command[0] == 'f') {
+                std::cout << "Please type the block you want to force" << std::endl;
+                std::cout << "I J L O S Z T" << std::endl;
+                char b;
+                std::cin >> b;
+                force(b);
+            } else {
+                std::cout << "Oh! You are kind! You lose this fucking chance XDDD" <<std::endl;
+            }
+        }
         round = 2;
         return;
     }
-    Board2->cleanRow();
+    Board2->unsetBlind();
+    int row = Board2->cleanRow();
+    if (row != 0 && Board2->getLevel()->getCurlevel() == 4) {Board2->getLevel()->resetRound();}
+    if (Board2->getLevel()->ifstar() && Board2->getLevel()->getCurlevel() == 4) {
+        std::shared_ptr<Block> star = std::make_shared<Star_block>();
+        Board2->addCells(star);
+        Board2->setCurBlock(star);
+        Board2->drop();
+        Board2->getLevel()->resetRound();
+    }
+    if (row >= 2) {
+        display();
+        std::cout << "You have a chance to select special actions!" << std::endl;
+        std::cout << "Choose one of blind, heavy, or force to your opponent!" << std::endl;
+        std::string command;
+        std::cin >> command;
+        if (command[0] == 'b') {
+            applyBlind();
+        } else if (command[0] == 'h') {
+            heavy();
+        } else if (command[0] == 'f') {
+            std::cout << "Please type the block you want to force" << std::endl;
+            std::cout << "I J L O S Z T" << std::endl;
+            char b;
+            std::cin >> b;
+            force(b);
+        } else {
+            std::cout << "Oh! You are kind! You lose this fucking chance XDDD" <<std::endl;
+        }
+    }
     round = 1;
 }
 
@@ -234,3 +304,5 @@ void BoardControl::removeBlind() {
 void BoardControl::noGraph() {
     graphic = false;
 }
+
+void BoardControl::setSeed(int num) {seed = num;}

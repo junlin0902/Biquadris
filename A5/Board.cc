@@ -23,9 +23,9 @@ std::shared_ptr<Score> Board::getScore() {return score;}
 int Board::totalBlock() {return num_block;}
 
 void Board::createBlock() {
-    if (endgame()) {
-        std::cout << "end!" << std::endl;
-        return;
+    std::string endmsg;
+    for (int i = 0; i < 11; i++) {
+        if (findPos(i, 3)) {throw endmsg;}
     }
     if (cur_block == nullptr) {
         cur_block = level->createBlock();
@@ -50,7 +50,8 @@ bool Board::getBlind(){
     return isBlind;
 }
 
-bool Board::findPos(int& x, int& y) {
+
+bool Board::findPos(int x, int y) {
     for (auto& b: cells) {
         if (b->findPos(x, y)) {
             return true;
@@ -59,7 +60,7 @@ bool Board::findPos(int& x, int& y) {
     return false;
 }
 
-char Board::findType(int& x, int& y) {
+char Board::findType(int x, int y) {
     for (auto& b: cells) {
         if (b->findPos(x, y)) {
             return b->blockType();
@@ -134,8 +135,16 @@ bool Board::right() {
 }
 
 void Board::drop() {
-    while (down() == 1) {}
-    createBlock();
+    while (true) {
+        int status = -1;
+        status = down();
+        if (status == 0) {
+            createBlock();
+            break;
+        } else if (status == 2) {
+            break;
+        }
+    }
 }
 
 int Board::down() {
@@ -246,7 +255,7 @@ void Board::rotateAW() {
     }
 }
 
-void Board::cleanRow() {
+int Board::cleanRow() {
     int numRow = 0;
     for (int i = totalRow; i > 3; i--) {
         for (int j = 0; j <= totalCol; j++) {
@@ -279,6 +288,7 @@ void Board::cleanRow() {
         }
     }
     score->cleanRow(numRow);
+    return numRow;
 }
 
 void Board::heavy() {
@@ -293,6 +303,7 @@ void Board::force(char type) {
     else if (type == 'S') {cur_block = std::make_shared<S_block>();}
     else if (type == 'Z') {cur_block = std::make_shared<Z_block>();}
     else if (type == 'T') {cur_block = std::make_shared<T_block>();}
+    else {return;}
     cells.pop_back();
     cells.push_back(cur_block);
 }
@@ -307,19 +318,4 @@ void Board::reset() {
     next_block = level->createBlock();
     score->restart();
 }
-
-bool Board::endgame() {
-    int count = 0;
-    for (auto& selectedblock : cells) {
-        for (int i = 0; i < 4; i++) {
-            if (selectedblock->getVectorPosn()[selectedblock->findIndex()][i].y <= 3) {
-                count += 1;
-            }          
-        }
-    }
-    if (count > 4) {
-        return true;
-    }
-    return false;
-}    
 

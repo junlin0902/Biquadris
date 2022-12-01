@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 //=============================================================
 // class Level
@@ -16,15 +17,24 @@ void Level::readFile() {
     }
 }
 
-void Level::changeRandom() {
-    if (is_random) {
-        is_random = false;
-        return;
-    }
-    is_random = true;
-}
+void Level::norandom() {is_random = false;}
+
+void Level::random() {is_random = true;}
 
 void Level::setFilename(std::string fname) {filename = fname;}
+
+std::string Level::getFilename() {return filename;}
+
+void Level::setSeed(int num) {seed = num;}
+
+void Level::resetRound() {counter = 0;}
+
+bool Level::ifstar() {
+    if (counter == 5) {
+        return true;
+    }
+    return false;
+}
 
 //=============================================================
 // class Level0
@@ -55,6 +65,9 @@ std::shared_ptr<Block> Level0::createBlock() {
 //=============================================================
 // class Level1
 std::shared_ptr<Block> Level1::createBlock() {
+    if (seed != 0) {
+        srand(seed);
+    }
     int num = rand() % 6;
     if (num == 0) {
         return std::make_shared<I_block>();
@@ -78,6 +91,9 @@ std::shared_ptr<Block> Level1::createBlock() {
 //=============================================================
 // class level2
 std::shared_ptr<Block> Level2::createBlock() {
+    if (seed != 0) {
+        srand(seed);
+    }
     int num = rand() % 7;
     if (num == 0) {
         return std::make_shared<I_block>();
@@ -100,6 +116,9 @@ std::shared_ptr<Block> Level2::createBlock() {
 //=============================================================
 std::shared_ptr<Block> Level3::createBlock() {
     std::shared_ptr<Block> b;
+    if (seed != 0) {
+        srand(seed);
+    }
     if (is_random) {
         int num = rand() % 9;
         if (num == 0 || num == 1) {
@@ -125,15 +144,15 @@ std::shared_ptr<Block> Level3::createBlock() {
         curIndex += 1;
         if (block[curIndex - 1] == 'I') {
             b = std::make_shared<I_block>();
-        } else if (block[curIndex] == 'J') {
+        } else if (block[curIndex - 1] == 'J') {
             b = std::make_shared<J_block>();
-        } else if (block[curIndex] == 'L') {
+        } else if (block[curIndex - 1] == 'L') {
             b = std::make_shared<L_block>();
-        } else if (block[curIndex] == 'O') {
+        } else if (block[curIndex - 1] == 'O') {
             b = std::make_shared<O_block>();
-        } else if (block[curIndex] == 'S') {
+        } else if (block[curIndex - 1] == 'S') {
             b = std::make_shared<S_block>();
-        } else if (block[curIndex] == 'Z') {
+        } else if (block[curIndex - 1] == 'Z') {
             b = std::make_shared<Z_block>();
         } else {
             b = std::make_shared<T_block>();
@@ -147,6 +166,9 @@ std::shared_ptr<Block> Level3::createBlock() {
 //=============================================================
 std::shared_ptr<Block> Level4::createBlock() {
     std::shared_ptr<Block> b;
+    if (seed != 0) {
+        srand(seed);
+    }
     if (is_random) {
         int num = rand() % 9;
         if (num == 0 || num == 1) {
@@ -172,35 +194,22 @@ std::shared_ptr<Block> Level4::createBlock() {
         curIndex += 1;
         if (block[curIndex - 1] == 'I') {
             b = std::make_shared<I_block>();
-        } else if (block[curIndex] == 'J') {
+        } else if (block[curIndex - 1] == 'J') {
             b = std::make_shared<J_block>();
-        } else if (block[curIndex] == 'L') {
+        } else if (block[curIndex - 1] == 'L') {
             b = std::make_shared<L_block>();
-        } else if (block[curIndex] == 'O') {
+        } else if (block[curIndex - 1] == 'O') {
             b = std::make_shared<O_block>();
-        } else if (block[curIndex] == 'S') {
+        } else if (block[curIndex - 1] == 'S') {
             b = std::make_shared<S_block>();
-        } else if (block[curIndex] == 'Z') {
+        } else if (block[curIndex - 1] == 'Z') {
             b = std::make_shared<Z_block>();
         } else {
             b = std::make_shared<T_block>();
         }
     }
     b->setHeavyLevel(1);
+    counter += 1;
     return b;
 }
 
-
-//=============================================================
-// just for testing
-/*int main() {
-    std::vector<std::shared_ptr<Block>> b;
-    std::shared_ptr<Level> l1 = std::make_shared<Level2>(Level2{});
-    for (int i = 0; i < 5; i++) {
-        b.push_back(l1->createBlock());
-    }
-    for (auto it: b) {
-        std::cout << it->blockType() <<' ';
-    }
-    std::cout << std::endl;
-}*/

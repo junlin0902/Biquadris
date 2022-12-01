@@ -12,12 +12,19 @@ class Level {
     bool is_random = false;
     int cur_level;
     int curIndex = 0;
+    int seed = 0;
+    int counter = 0;
 
     public:
     int getCurlevel();
     void readFile();
-    void changeRandom();
+    void norandom();
+    void random();
     void setFilename(std::string fname);
+    std::string getFilename();
+    void setSeed(int num);
+    void resetRound();
+    bool ifstar();
     virtual std::shared_ptr<Block> createBlock() = 0;
 };
 
@@ -32,6 +39,7 @@ class Level0: public Level {
         }
     }
     std::shared_ptr<Block> createBlock() override;
+    void resetRound();
 };
 
 class Level1: public Level {

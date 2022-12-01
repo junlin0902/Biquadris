@@ -137,7 +137,7 @@ class Star_block: public Block {
     Star_block() {
         type = '*';
         // first appear in the mid col
-        pos.push_back(std::vector<Posn>{Posn{5, 3}});
+        pos.push_back(std::vector<Posn>{Posn{5, 3}, Posn{5, 3, false}, Posn{5, 3, false}, Posn{5, 3, false}});
     }
 };
 

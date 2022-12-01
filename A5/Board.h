@@ -13,8 +13,6 @@ class Board {
     std::shared_ptr<Level> level;
     std::shared_ptr<Score> score;
     bool isBlind = false;
-    bool isHeavy = false;
-    bool isForce = false;
     int num_block = 0;
 
     public:
@@ -31,6 +29,7 @@ class Board {
     void unsetBlind();
     bool getBlind();
 
+    void addCells(std::shared_ptr<Block> star) {cells.push_back(star);}
     std::shared_ptr<Block> getCurBlock();
     std::shared_ptr<Block> getNextBlock();
     std::shared_ptr<Level> getLevel();
@@ -40,8 +39,8 @@ class Board {
     void createBlock();
     
     // helper for finding if there exists Posn{x, y} visible
-    bool findPos(int& x, int& y);
-    char findType(int& x, int& y);
+    bool findPos(int x, int y);
+    char findType(int x, int y);
 
     bool left(); //如果在heavy的情况下down不下去了 is false, else true
     bool right();
@@ -50,12 +49,11 @@ class Board {
     void rotateCW();
     void rotateAW();
 
-    void cleanRow();
+    int cleanRow();
     void heavy();
     void force(char type);
     void reset();
 
-    bool endgame();
 };
 
 

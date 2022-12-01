@@ -9,10 +9,9 @@ class BoardControl {
     std::shared_ptr<Board> Board1;
     std::shared_ptr<Board> Board2;
     int round = 1;
-    // 0 end    1 playerwin      2 player2win
-    int whowin = 0;
-    View view;
+    View view; //should change to smart pointer here
     bool graphic;
+    int seed = 0;
 
     public:
     BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g = true)
@@ -31,8 +30,8 @@ class BoardControl {
     void force(char block);
     void levelup(int num);
     void leveldown(int num);
-    void switchRandom();
-    int find_whowin();
+    void norandom();
+    void random();
     std::shared_ptr<Board> getBoard1();
     std::shared_ptr<Board> getBoard2();
     void changeRound();
@@ -40,6 +39,7 @@ class BoardControl {
     void applyBlind();
     void removeBlind();
     void noGraph();
+    void setSeed(int num);
 };
 
 #endif

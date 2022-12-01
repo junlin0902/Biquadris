@@ -9,36 +9,7 @@
 #include <string>
 #include <map>
 
-void print(std::shared_ptr<BoardControl> player1) {
-    std::cout << "Board1:" << "        " << "Board2:" << std::endl;
-    std::cout << "+-----------+" << "  " << "+-----------+" << std::endl;
-    for (int i = 0; i < 18; i++) {
-        std::cout << '|';
-        for (int j = 0; j < 11; j++) {
-            if (player1->getBoard1()->findPos(j, i)) {
-                std::cout << player1->getBoard1()->findType(j, i);
-            } else {std::cout << ' ';}
-        }
-        std::cout << '|' << "  ";
-
-        //second board
-        std::cout << '|';
-        for (int j = 0; j < 11; j++) {
-            if (player1->getBoard2()->findPos(j, i)) {
-                std::cout << player1->getBoard2()->findType(j, i);
-            } else {std::cout << ' ';}
-        }
-        std::cout << '|' << std::endl;        
-    }
-    std::cout << "+-----------+" << "  " << "+-----------+" << std::endl;
-    std::cout << "level         |player1:" << player1->getBoard1()->getLevel()->getCurlevel()
-              << " player2:" << player1->getBoard2()->getLevel()->getCurlevel() << std::endl;
-    std::cout << "current score |player1:" << player1->getBoard1()->getScore()->getScore() 
-              << " player2:" << player1->getBoard2()->getScore()->getScore() << std::endl;
-    std::cout << "high score    |player1:" << player1->getBoard1()->getScore()->getHscore() 
-              << " player2:" << player1->getBoard2()->getScore()->getHscore() << std::endl;
-}
-
+//===========================helper function=================================================
 // command identifier
 std::string cmdIdentifier(std::string cmd) {
     std::map<std::string, std::string> m {
@@ -67,6 +38,7 @@ std::string cmdIdentifier(std::string cmd) {
         {"clockwis", "rotateCW"},
         {"clockwise", "rotateCW"},
 
+        {"cc", "rotateAW"},
         {"co", "rotateAW"},
         {"cou", "rotateAW"},
         {"coun", "rotateAW"},
@@ -134,7 +106,7 @@ std::string cmdIdentifier(std::string cmd) {
 
 
 // devide command into num and command
-void getPrefix(std::string cmd, int& times, std::string& newCmd , std::string& xxx) {
+void getPrefix(std::string cmd, int& times, std::string& newCmd) {
     int len = cmd.length();
     int count = 0;
     while (count < len) {
@@ -148,55 +120,123 @@ void getPrefix(std::string cmd, int& times, std::string& newCmd , std::string& x
     std::stringstream ss;
     // no prefix
     if (count == 0) {
-        // newCmd = cmd;
+        newCmd = cmd;
         times = 1;
-        // return;
+        return;
     }
-    else {
-        ss << cmd.substr(0, count);
-        ss >> times;
+    newCmd = cmd.substr(count, len - count);
+    ss << cmd.substr(0, count);
+    ss >> times;
+}
+
+// transfer string to int
+int stringtoInt(std::string string, int i) {
+    int num = 0;
+    int times = 1;
+    for (int j = i - 1; j >= 0; j--) {
+        if (string[j] == '-') {
+            return -num;
+        } else {
+            num += times * (string[j] - '0');
+            times *= 10;
+        }
     }
-
-    std::string tempCmd = cmd.substr(count, len - count);
-    std::string x;
-    std::stringstream cm {tempCmd};
-    cm >> tempCmd >> x;
-
-    newCmd = cmdIdentifier(tempCmd);
-    xxx = x;
-    
+    return num;
 }
 
 
-int main() {
-    std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>("sequence1.txt"), 
-                                                                        std::make_shared<Board>("sequence2.txt"));
+//============================================main=========================================================================
+int main(int argc, const char *argv[]) {
+    std::cout << "Are you ready to begin? Type p to begin Biquadris else to end" << std::endl;
+    char begin;
+    std::cin >> begin;
+    if (begin != 'p') {return 1;}
+
+
+    std::string file1 = "sequence1.txt";
+    std::string file2 = "sequence2.txt";
+    std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
+                                                                        std::make_shared<Board>(file2));
+    // commmand line
+    for (int i = 1; i < argc; i++) {
+        std::string command = argv[i];
+        if (command == "-text") {
+            play->noGraph();
+        } else if (command == "-seed") {
+            i++;
+            std::string value = argv[i];
+            play->setSeed(stringtoInt(value, value.length()));
+        } else if (command == "-scriptfile1") {
+            i++;
+            file1 = argv[i];
+            play->getBoard1()->getLevel()->setFilename(file1);
+        } else if (command == "-scriptfile2") {
+            i++;
+            file2 = argv[i];
+            play->getBoard1()->getLevel()->setFilename(file1);
+        } else if (command == "-startlevel") {
+            i++;
+            std::string l = argv[i];
+            int len = l.length();
+            int level = stringtoInt(l, len);
+            // set level here;
+            play->levelup(level);
+            play->changeRound();
+            play->levelup(level);
+            play->changeRound();
+        }
+    }
+
     // print(play);
     play->display();
 
+
     std::string input;
     std::string command;
-    std::string xxx;        // might be file, seed, number etc..
     int times = 1;
+    bool endStatus = false;
     std::cout << "command:" << std::endl;
     while (std::cin >> input) {
-        getPrefix(input, times, command, xxx);
+        getPrefix(input, times, command);
+        command = cmdIdentifier(command);
         if (command == "end") {
             break;
         } else if (command == "left") {
-            play->left(times);
+            try {
+                play->left(times);
+            } catch (std::string endmsg) {
+              endStatus = true;
+            }
         } else if (command == "right") {
-            play->right(times);
+            try {
+                play->right(times);
+            } catch (std::string endmsg) {
+              endStatus = true;
+            }
         } else if (command == "down") {
-            play->down(times);
+            try {
+                play->down(times);
+            } catch (std::string endmsg) {
+              endStatus = true;
+            }
         } else if (command == "drop") {
-            play->drop();
+            try {
+                play->drop();
+            } catch (std::string endmsg) {
+              endStatus = true;
+            }
         } else if (command == "rotateCW") {
-            play->rotateCW(times);
+            try {
+                play->rotateCW(times);
+            } catch (std::string endmsg) {
+              endStatus = true;
+            }
         } else if (command == "rotateAW") {
-            play->rotateAW(times);
-        } else if (command == "heavy") {
-            play->heavy();
+            try {
+                play->rotateAW(times);
+            } catch (std::string endmsg) {
+              endStatus = true;
+            }
         } else if (command == "levelup") {
             play->levelup(times);
         } else if (command == "leveldown") {
@@ -208,52 +248,37 @@ int main() {
         } else if (command == "restart") {
             std::cout << "This is tie!" << std::endl;
             play->restart();
-        } else if (command == "-text") {
-            play->noGraph();
-        } else if (command == "-seed") {
-
-        } else if (command == "-scriptfile1") {
-
-        } else if (command == "-scriptfile2") {
-
-        } else if (command == "-startlevel") {
-
         } else if (command == "random") {
-
+            play->random();
         } else if (command == "norandom") {
-
-        } else if (command == "I") {
-
-        } else if (command == "J") {
-            
-        } else if (command == "L") {
-            
-        } else if (command == "O") {
-            
-        } else if (command == "S") {
-            
-        } else if (command == "Z") {
-            
-        } else if (command == "T") {
-            
-        }
-        else {
+            play->norandom();
+        } else {
             std::cout << "Invalid Input!" << std::endl;
         }
         // print(play);
         play->display();
-        if (play->find_whowin() != 0) {
-            std::cout << "game is end!" << std::endl;
-            std::cout << "winner is player" << play->find_whowin() << std::endl;
-            std::cout << "type restart or end" << std::endl;
+        if (endStatus) {
             std::string cmd;
+            
+            std::cout << "Game is end!" << std::endl;
+            // who win here
+            int s1 = play->getBoard1()->getScore()->getScore();
+            int s2 = play->getBoard2()->getScore()->getScore();
+            std::cout << "Score for player1: " << s1 << std::endl;
+            std::cout << "Score for player2: " << s2 << std::endl;
+            if (s1 > s2) {std::cout << "WINNER is player1!!" << std::endl;}
+            else if (s1 < s2) {std::cout << "WINNER is player2!!" << std::endl;}
+            else {std::cout << "This is tie!" << std::endl;}
+            std::cout << std::endl;
+
+            std::cout << "Choose restart or end?" << std::endl;
             std::cin >> cmd;
-            if (cmd == "end") {
-                break;
-            } else if (cmd == "restart") {
+            if (cmd == "restart") {
                 play->restart();
-            }
+                play->display();
+            } else {break;}
         }
         std::cout << "command:" << std::endl;
     }
+    std::cout << "Thanks for enjoying Biquadris!" << std::endl;
 }
