@@ -10,7 +10,6 @@ class BoardControl {
     std::shared_ptr<Board> Board2;
     int round = 1;
     std::shared_ptr<View> view;
-    // View view; //should change to smart pointer here
     bool graphic;
     int seed = 0;
 
