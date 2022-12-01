@@ -33,7 +33,7 @@ const int board_d = board_top + board_height;     // down border
 const int bw = 5;       // border width
 
 // Constructor
-View::View(bool g): isGraphic{g}, xw{nullptr} {
+View::View(bool g): isGraphic{g} {
     if (isGraphic){
         initGraph();
     }
@@ -80,10 +80,9 @@ void View::initGraph() {
 
 }
 
-
 // helper function
 // return color based on block type
-int colortype(char type){
+const int colortype(char type){
     switch (type)
     {
     case 'I':   
@@ -290,7 +289,7 @@ void View::endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     }
     // text version
         std::cout << "-----------          -----------" << std::endl;
-        std::cout << " Hi Score:            HiScore:" << std::endl;
+        std::cout << "Hi Score:            HiScore:" << std::endl;
         std::cout << " " << score_1 << std::setw(21) << score_2 << std::endl;
         std::cout << std::endl;
         std::cout << win << std::endl;

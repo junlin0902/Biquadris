@@ -15,7 +15,7 @@ class BoardControl {
     int seed = 0;
 
     public:
-    BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g = true)
+    BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g = false)
     : Board1{Board1}, Board2{Board2}, view{std::make_shared<View>(g)}, graphic{g} {
         Board1->createBlock();
         Board2->createBlock();
@@ -39,7 +39,7 @@ class BoardControl {
     void display();
     void applyBlind();
     void removeBlind();
-    void noGraph();
+    void needGraph();
     void setSeed(int num);
     void endgame();
 };

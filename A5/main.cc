@@ -152,7 +152,7 @@ int main(int argc, const char *argv[]) {
     std::cin >> begin;
     if (begin != 'p') {return 1;}
 
-
+    int graphic = 0;
     std::string file1 = "sequence1.txt";
     std::string file2 = "sequence2.txt";
     std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
@@ -161,7 +161,7 @@ int main(int argc, const char *argv[]) {
     for (int i = 1; i < argc; i++) {
         std::string command = argv[i];
         if (command == "-text") {
-            play->noGraph();
+            graphic = 1;
         } else if (command == "-seed") {
             i++;
             std::string value = argv[i];
@@ -187,6 +187,9 @@ int main(int argc, const char *argv[]) {
         }
     }
 
+    if (graphic == 0) {
+        play->needGraph();
+    }
     // print(play);
     play->display();
 
