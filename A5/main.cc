@@ -104,14 +104,12 @@ std::string cmdIdentifier(std::string cmd) {
     return cmd;
 }
 
-
 // devide command into num and command
 void getPrefix(std::string cmd, int& times, std::string& newCmd) {
     int len = cmd.length();
     int count = 0;
     while (count < len) {
-        if (cmd[count] == '1' || cmd[count] == '2' || cmd[count] == '3' || cmd[count] == '4' || cmd[count] == '5' ||
-            cmd[count] == '6' || cmd[count] == '7' || cmd[count] == '8' || cmd[count] == '9') {
+        if (isdigit(cmd[count])) {
             count += 1;
         } else {
             break;
