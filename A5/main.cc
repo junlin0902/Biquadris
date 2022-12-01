@@ -100,6 +100,12 @@ std::string cmdIdentifier(std::string cmd) {
         {"norando", "norandom"},
         {"norandom", "norandom"},
 
+        {"ra", "random"},
+        {"ran", "random"},
+        {"rand", "random"},
+        {"rando", "random"},
+        {"random", "random"},
+
         {"s", "sequence"},
         {"se", "sequence"},
         {"seq", "sequence"},
@@ -212,8 +218,25 @@ int main() {
 
         } else if (command == "-startlevel") {
 
-        }
+        } else if (command == "random") {
 
+        } else if (command == "norandom") {
+
+        } else if (command == "I") {
+
+        } else if (command == "J") {
+            
+        } else if (command == "L") {
+            
+        } else if (command == "O") {
+            
+        } else if (command == "S") {
+            
+        } else if (command == "Z") {
+            
+        } else if (command == "T") {
+            
+        }
         else {
             std::cout << "Invalid Input!" << std::endl;
         }
