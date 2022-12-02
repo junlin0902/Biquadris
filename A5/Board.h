@@ -6,6 +6,7 @@
 #include "Level.h"
 #include <memory>
 
+
 class Board {
     std::vector<std::shared_ptr<Block>> cells;
     std::shared_ptr<Block> cur_block;
@@ -14,7 +15,7 @@ class Board {
     std::shared_ptr<Score> score;
     bool isBlind = false;
     bool block_before_starblock = false;
-    int num_block = 0;
+    //int num_block = 0;
 
     public:
     Board(std::string);
@@ -30,7 +31,7 @@ class Board {
     // blind effect
     void setBlind();
     void unsetBlind();
-    bool getBlind();
+    bool getBlind() const;
 
     void addCells(std::shared_ptr<Block> star) {cells.push_back(star);}
     void popbackCells() {cells.pop_back();}
@@ -38,8 +39,9 @@ class Board {
     std::shared_ptr<Block> getNextBlock();
     std::shared_ptr<Level> getLevel();
     std::shared_ptr<Score> getScore();
+
     bool getblock_before_starblock() {return block_before_starblock;}
-    int totalBlock();
+    //int totalBlock() const;
 
     void createBlock();
     
@@ -58,7 +60,8 @@ class Board {
     void heavy();
     void force(char type);
     void reset();
-
+    void resetBlockonly();
+    
 };
 
 

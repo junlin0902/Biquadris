@@ -12,19 +12,19 @@ class Level {
     bool is_random = false;
     int cur_level;
     int curIndex = 0;
-    int seed = 0;
+    //int seed = 0;
     int counter = 0;
 
     public:
-    int getCurlevel();
+    int getCurlevel() const;
     void readFile();
     void norandom();
     void random();
     void setFilename(std::string fname);
-    std::string getFilename();
-    void setSeed(int num);
+    std::string getFilename() const;
+    //void setSeed(int num);
     void resetRound();
-    bool ifstar();
+    bool ifstar() const;
     virtual std::shared_ptr<Block> createBlock() = 0;
 };
 

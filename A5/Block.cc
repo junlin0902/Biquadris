@@ -36,23 +36,6 @@ void Block::up() {
     }
 }
 
-/*void Block::drop() {
-    int maxy = -1;
-    for (auto& outer: pos) {
-        for (auto& inner: outer) {
-            if (maxy < inner.y) {
-                maxy = inner.y;
-            }
-        }
-    }
-    int length = totalRow - maxy;
-    for (auto& outer: pos) {
-        for (auto& inner: outer) {
-            inner.y += length;
-        }
-    } 
-}*/
-
 void Block::down() {
     for (auto& outer: pos) {
         for (auto& inner: outer) {
@@ -196,47 +179,3 @@ void T_block::rotateAW() {
     posIndex = remainder + 4;
 }
 
-
-//==============================================================
-// just for testing
-/*void print(std::shared_ptr<Block> block1) {
-    std::vector<std::vector<Posn>> temp = block1->getVectorPosn();
-    int index = block1->findIndex();
-    std::cout << "+------+" << std::endl;
-    for (int i = 0; i < 6; i++) {
-        std::cout << '|';
-        for (int j = 0; j < 6; j++) {
-            if (std::count(temp[index].begin(), temp[index].end(), Posn{j, i}) != 0) {
-                std::cout << block1->blockType();
-            } else {
-                std::cout << ' ';
-            }
-        }
-        std::cout << '|' <<std::endl;
-    }
-    std::cout << "+------+" << std::endl;
-    for (auto it: temp[index]) {
-        std::cout << "Posn:" << it.x << ' ' << it.y << std::endl;
-    }
-}
-
-
-int main() {
-    std::shared_ptr<Block> b1 = std::make_shared<I_block>(I_block{});
-    std::shared_ptr<Block> b2 = std::make_shared<T_block>(T_block{});
-    print(b2);
-    b2->left();
-    print(b2);
-    b2->right();
-    b2->right();
-    print(b2);
-    b2->down();
-    print(b2);
-    b2->rotateAW();
-    print(b2);
-    b2->rotateCW();
-    b2->rotateCW();
-    print(b2);
-    b2->rotateCW();
-    print(b2);
-}*/

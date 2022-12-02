@@ -289,7 +289,7 @@ void View::endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     }
     // text version
         std::cout << "-----------          -----------" << std::endl;
-        std::cout << "Hi Score:            HiScore:" << std::endl;
+        std::cout << "HiScore:             HiScore:" << std::endl;
         std::cout << " " << score_1 << std::setw(21) << score_2 << std::endl;
         std::cout << std::endl;
         std::cout << win << std::endl;

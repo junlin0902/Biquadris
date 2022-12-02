@@ -6,7 +6,7 @@
 
 //=============================================================
 // class Level
-int Level::getCurlevel() {return cur_level;}
+int Level::getCurlevel() const {return cur_level;}
 
 void Level::readFile() {
     if (filename == "") {return;}
@@ -23,13 +23,13 @@ void Level::random() {is_random = true;}
 
 void Level::setFilename(std::string fname) {filename = fname;}
 
-std::string Level::getFilename() {return filename;}
+std::string Level::getFilename() const {return filename;}
 
-void Level::setSeed(int num) {seed = num;}
+//void Level::setSeed(int num) {seed = num;}
 
 void Level::resetRound() {counter = 0;}
 
-bool Level::ifstar() {
+bool Level::ifstar() const {
     if (counter == 5) {
         return true;
     }
@@ -65,9 +65,9 @@ std::shared_ptr<Block> Level0::createBlock() {
 //=============================================================
 // class Level1
 std::shared_ptr<Block> Level1::createBlock() {
-    if (seed != 0) {
+    /*if (seed != 0) {
         srand(seed);
-    }
+    }*/
     int num = rand() % 6;
     if (num == 0) {
         return std::make_shared<I_block>();
@@ -91,9 +91,9 @@ std::shared_ptr<Block> Level1::createBlock() {
 //=============================================================
 // class level2
 std::shared_ptr<Block> Level2::createBlock() {
-    if (seed != 0) {
+    /*if (seed != 0) {
         srand(seed);
-    }
+    }*/
     int num = rand() % 7;
     if (num == 0) {
         return std::make_shared<I_block>();
@@ -116,9 +116,9 @@ std::shared_ptr<Block> Level2::createBlock() {
 //=============================================================
 std::shared_ptr<Block> Level3::createBlock() {
     std::shared_ptr<Block> b;
-    if (seed != 0) {
+    /*if (seed != 0) {
         srand(seed);
-    }
+    }*/
     if (is_random) {
         int num = rand() % 9;
         if (num == 0 || num == 1) {
@@ -166,9 +166,9 @@ std::shared_ptr<Block> Level3::createBlock() {
 //=============================================================
 std::shared_ptr<Block> Level4::createBlock() {
     std::shared_ptr<Block> b;
-    if (seed != 0) {
+    /*if (seed != 0) {
         srand(seed);
-    }
+    }*/
     if (is_random) {
         int num = rand() % 9;
         if (num == 0 || num == 1) {

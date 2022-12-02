@@ -20,7 +20,7 @@ std::shared_ptr<Block> Board::getNextBlock() {return next_block;}
 std::shared_ptr<Level> Board::getLevel() {return level;}
 std::shared_ptr<Score> Board::getScore() {return score;}
 
-int Board::totalBlock() {return num_block;}
+//int Board::totalBlock() const {return num_block;}
 
 void Board::createBlock() {
     std::string endmsg;
@@ -46,7 +46,7 @@ void Board::unsetBlind() {
     isBlind = false;
 }
 
-bool Board::getBlind(){
+bool Board::getBlind() const {
     return isBlind;
 }
 
@@ -144,15 +144,7 @@ void Board::drop() {
         } else if (status == 2) {
             break;
         }
-    }
-
-    // for (auto& selectedblock : cells) { 
-    //     std::cout << "after dropped block type: " << selectedblock->blockType() << std::endl;
-    //     for (int i = 0; i < 4; i++) {
-    //         std::cout << "x: " << selectedblock->getVectorPosn()[selectedblock->findIndex()][i].x << " y: ";
-    //         std::cout << selectedblock->getVectorPosn()[selectedblock->findIndex()][i].y << std::endl;       
-    //     }
-    // }    
+    }  
 }
 
 int Board::down() {
@@ -361,5 +353,14 @@ void Board::reset() {
     cells.push_back(cur_block);
     next_block = level->createBlock();
     score->restart();
+    level->resetRound();
 }
 
+void Board::resetBlockonly() {
+    cur_block = nullptr;
+    next_block = nullptr;
+    int size = cells.size();
+    for (int i = 0; i < size; i++) {
+        cells.pop_back();
+    }
+}

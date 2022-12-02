@@ -5,6 +5,7 @@
 
 
 void BoardControl::restart() {
+    round = 1;
     Board1->reset();
     Board2->reset();
 }
@@ -146,7 +147,7 @@ void BoardControl::levelup(int num) {
             Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
         }
         Board1->getScore()->setLevel(Board1->getLevel());
-        Board1->getLevel()->setSeed(seed);
+        //Board1->getLevel()->setSeed(seed);
         return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
@@ -164,7 +165,7 @@ void BoardControl::levelup(int num) {
         Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
     }
     Board2->getScore()->setLevel(Board2->getLevel());
-    Board2->getLevel()->setSeed(seed);
+    //Board2->getLevel()->setSeed(seed);
 }
 
 void BoardControl::leveldown(int num) {
@@ -180,7 +181,7 @@ void BoardControl::leveldown(int num) {
             Board1->setLevel(std::make_shared<Level3>(Board1->getLevel()->getFilename()));
         }
         Board1->getScore()->setLevel(Board1->getLevel());
-        Board1->getLevel()->setSeed(seed);
+        //Board1->getLevel()->setSeed(seed);
         return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
@@ -194,7 +195,7 @@ void BoardControl::leveldown(int num) {
         Board2->setLevel(std::make_shared<Level3>(Board2->getLevel()->getFilename()));
     }
     Board2->getScore()->setLevel(Board2->getLevel());
-    Board2->getLevel()->setSeed(seed);
+    //Board2->getLevel()->setSeed(seed);
 }
 
 void BoardControl::norandom() {
@@ -233,7 +234,6 @@ void BoardControl::changeRound() {
             Board1->setblock_before_starblock(true);
             Board1->addCells(star);
             Board1->setCurBlock(star);
-            // this drop has problem
             Board1->drop();
             Board1->setblock_before_starblock(false);
             Board1->addCells(last_block);
@@ -339,8 +339,42 @@ void BoardControl::needGraph() {
     view->initGraph();
 }
 
-void BoardControl::setSeed(int num) {seed = num;}
+//void BoardControl::setSeed(int num) {seed = num;}
 
 void BoardControl::endgame() {
     view->endGame(Board1, Board2);
+}
+
+
+bool BoardControl::if_firststep() {
+    if (round == 1) {
+        if (getBoard1()->getLevel()->getCurlevel() >= 3) {
+            for (auto p: getBoard1()->getCurBlock()->getVectorPosn()[getBoard1()->getCurBlock()->findIndex()]) {
+                if (p.y > 3) {return true;}
+            }
+            for (auto p: getBoard1()->getCurBlock()->getVectorPosn()[getBoard1()->getCurBlock()->findIndex()]) {
+                if (p.y == 3) {
+                    std::cout << "reaches here" << std::endl;
+                    if (getBoard1()->findPos(p.x, 4)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    } else {
+        if (getBoard2()->getLevel()->getCurlevel() >= 3) {
+            for (auto p: getBoard2()->getCurBlock()->getVectorPosn()[getBoard2()->getCurBlock()->findIndex()]) {
+                if (p.y > 3) {return true;}
+            }
+            for (auto p: getBoard2()->getCurBlock()->getVectorPosn()[getBoard2()->getCurBlock()->findIndex()]) {
+                if (p.y == 3) {
+                    if (getBoard2()->findPos(p.x, 4)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

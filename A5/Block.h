@@ -30,7 +30,6 @@ class Block {
     void left();
     void right();
     void up();
-    //void drop();
     void down();
     char blockType() const;
     int getHeavyLevel() const;

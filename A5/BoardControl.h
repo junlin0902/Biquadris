@@ -11,7 +11,7 @@ class BoardControl {
     int round = 1;
     std::shared_ptr<View> view;
     bool graphic;
-    int seed = 0;
+    //int seed = 0;
 
     public:
     BoardControl(std::shared_ptr<Board> Board1, std::shared_ptr<Board> Board2, bool g = false)
@@ -39,8 +39,14 @@ class BoardControl {
     void applyBlind();
     void removeBlind();
     void needGraph();
-    void setSeed(int num);
+    //void setSeed(int num);
     void endgame();
+
+    // when cur is in its initial pos
+    // this is try to find if this block can move its
+    // first step when it has heavy != 0
+    // can move return 1 otherwise 0
+    bool if_firststep();
 };
 
 #endif

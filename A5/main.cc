@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <cstdlib>
 
 //===========================helper function=================================================
 // command identifier
@@ -163,7 +164,17 @@ int main(int argc, const char *argv[]) {
         } else if (command == "-seed") {
             i++;
             std::string value = argv[i];
-            play->setSeed(stringtoInt(value, value.length()));
+            srand(stringtoInt(value, value.length()));
+            // unset curblock and nextblock
+            play->getBoard1()->resetBlockonly();
+            // reset counter only for level 4
+            play->getBoard1()->getLevel()->resetRound();
+            // need to reset curblock and nextblock
+            play->getBoard1()->createBlock();
+
+            play->getBoard2()->resetBlockonly();
+            play->getBoard1()->getLevel()->resetRound();
+            play->getBoard2()->createBlock();
         } else if (command == "-scriptfile1") {
             i++;
             file1 = argv[i];
@@ -200,7 +211,9 @@ int main(int argc, const char *argv[]) {
     while (std::cin >> input) {
         getPrefix(input, times, command);
         command = cmdIdentifier(command);
-        if (command == "end") {
+        if (play->if_firststep() == false) { // this is temp can be deleted and also isfirststep
+            endStatus = true;
+        } else if (command == "end") {
             char end;
             play->endgame();
             std::cout << "Press q to exit." << std::endl;
@@ -210,50 +223,59 @@ int main(int argc, const char *argv[]) {
             }
         } else if (command == "left") {
             try {
-                play->left(times);
+            play->left(times);
             } catch (std::string endmsg) {
-              endStatus = true;
+                endStatus = true;
             }
         } else if (command == "right") {
             try {
-                play->right(times);
+            play->right(times);
             } catch (std::string endmsg) {
-              endStatus = true;
+                endStatus = true;
             }
         } else if (command == "down") {
             try {
-                play->down(times);
+            play->down(times);
             } catch (std::string endmsg) {
-              endStatus = true;
+                endStatus = true;
             }
         } else if (command == "drop") {
             try {
-                play->drop();
+            play->drop();
             } catch (std::string endmsg) {
-              endStatus = true;
+                endStatus = true;
             }
         } else if (command == "rotateCW") {
             try {
-                play->rotateCW(times);
+            play->rotateCW(times);
             } catch (std::string endmsg) {
-              endStatus = true;
+                endStatus = true;
             }
         } else if (command == "rotateAW") {
             try {
-                play->rotateAW(times);
+            play->rotateAW(times);
             } catch (std::string endmsg) {
-              endStatus = true;
+                endStatus = true;
             }
         } else if (command == "levelup") {
             play->levelup(times);
         } else if (command == "leveldown") {
             play->leveldown(times);
+
+        // this is just for testing special action 
+        // need to be deleted
         } else if (command == "force") {
             char block;
             std::cin >> block;
             play->force(block);
+        } else if (command == "heavy") {
+            play->heavy();
+        } else if (command == "blind") {
+            play->applyBlind();
+        
+        
+        
         } else if (command == "restart") {
-            std::cout << "This is tie!" << std::endl;
             play->restart();
         } else if (command == "random") {
             play->random();
@@ -262,6 +284,8 @@ int main(int argc, const char *argv[]) {
         } else {
             std::cout << "Invalid Input!" << std::endl;
         }
+
+
         // print(play);
         play->display();
         if (endStatus) {
@@ -280,7 +304,8 @@ int main(int argc, const char *argv[]) {
 
             std::cout << "Choose restart or end?" << std::endl;
             std::cin >> cmd;
-            if (cmd == "restart") {
+            if (cmd[0] == 'r' || cmd[0] == 'R') {
+                endStatus = false;
                 play->restart();
                 play->display();
             } else {
@@ -295,6 +320,6 @@ int main(int argc, const char *argv[]) {
             }
         }
         std::cout << "command:" << std::endl;
-    }  // while
+    }
     std::cout << "Thanks for enjoying Biquadris!" << std::endl;
 }
