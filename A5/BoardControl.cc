@@ -336,7 +336,8 @@ void BoardControl::removeBlind() {
 
 void BoardControl::needGraph() {
     graphic = true;
-    view->initGraph();
+    view->graphic_version();
+    view->initGraph(); 
 }
 
 //void BoardControl::setSeed(int num) {seed = num;}

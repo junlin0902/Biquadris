@@ -18,6 +18,7 @@ class View {
     void removeBlind_graph(std::shared_ptr<Board> board);
     void applyBlind_text(std::shared_ptr<Board> board);
     void removeBlind_text(std::shared_ptr<Board> board);
+    void graphic_version();
 };
 
 #endif

@@ -295,3 +295,8 @@ void View::endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         std::cout << win << std::endl;
         std::cout << "-----------          -----------" << std::endl;
 }
+
+void View::graphic_version(){
+    isGraphic = true;
+}
+
