@@ -220,6 +220,7 @@ std::shared_ptr<Board> BoardControl::getBoard2() {return Board2;}
 
 void BoardControl::changeRound() {
     if (round == 1) {
+        view->player2_turn();
         Board1->unsetBlind();
         // special action
         int row = Board1->cleanRow();
@@ -263,6 +264,7 @@ void BoardControl::changeRound() {
         round = 2;
         return;
     }
+    view->player1_turn();
     Board2->unsetBlind();
     int row = Board2->cleanRow();
     if (row != 0 && Board2->getLevel()->getCurlevel() == 4) {Board2->getLevel()->resetRound();}

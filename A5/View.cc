@@ -60,14 +60,6 @@ void View::initGraph() {
     xw->fillRectangle(board_l2 - bw, board_d, board_width + bw, bw, Xwindow::Black);
     xw->fillRectangle(board_r2, board_top - bw, bw, board_height + 2 * bw, Xwindow::Black);
 
-
-    // header & footer 
-    // xw->fillRectangle(board_l1, 0, board_width, header_h - 0.5, Xwindow::White);
-    // xw->fillRectangle(board_l2, 0, board_width, header_h - 0.5, Xwindow::White);
-
-    // xw->fillRectangle(board_l1, board_d + 1, board_width, footer_h, Xwindow::White);
-    // xw->fillRectangle(board_l2, board_d + 1, board_width, footer_h, Xwindow::White);
-
     // strings
     xw->drawString(board_l1 + 1, s, "LEVEL:");
     xw->drawString(board_l2 + 1, s, "LEVEL:");
@@ -77,6 +69,8 @@ void View::initGraph() {
     xw->drawString(board_l2 + 1, 3 * s, "HIGHEST SCORE:");
     xw->drawString(board_l1 + 1, board_d + s, "NEXT:");
     xw->drawString(board_l2 + 1, board_d + s, "NEXT:");
+
+    player1_turn();
 
 }
 
@@ -118,7 +112,9 @@ const int colortype(char type){
 
 void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     // header 
-    xw->fillRectangle(0, 0, win_width, header_h - bw, Xwindow::Gray90);
+    xw->fillRectangle(0, 0, board_width - inner_s, header_h - bw, Xwindow::Gray90);
+    xw->fillRectangle(board_l2, 0, board_width - inner_s, header_h - bw, Xwindow::Gray90);
+
     xw->drawString(board_l1 + 1, s, "LEVEL:  " + std::to_string(b1.get()->getLevel().get()->getCurlevel()));
     xw->drawString(board_l2 + 1, s, "LEVEL:  " + std::to_string(b2.get()->getLevel().get()->getCurlevel()));
 
@@ -299,4 +295,15 @@ void View::endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
 void View::graphic_version(){
     isGraphic = true;
 }
+
+void View::player1_turn(){
+    xw->fillRectangle(board_r1 - s, 3 * s, w, bw, Xwindow::GreenYellow);
+    xw->fillRectangle(board_r2 - s, 3 * s, w, bw, Xwindow::Gray75);
+}
+
+void View::player2_turn() {
+    xw->fillRectangle(board_r1 - s, 3 * s, w, bw, Xwindow::Gray75);
+    xw->fillRectangle(board_r2 - s, 3 * s, w, bw, Xwindow::GreenYellow);
+}
+
 

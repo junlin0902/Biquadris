@@ -143,6 +143,29 @@ int stringtoInt(std::string string, int i) {
     return num;
 }
 
+// list of avaliable commands
+void help() {
+    std::cout << "=========================================================================" << std::endl;
+    std::cout << " left -------------- Moves current block one cell to the left" << std::endl;
+    std::cout << " right ------------- Moves current block one cell to the right" << std::endl;
+    std::cout << " down -------------- Moves current block one cell downward" << std::endl;
+    std::cout << " clockwise --------- Rotates current block 90 degrees clockwise " << std::endl;
+    std::cout << " counterclockwise -- Rotates current block 90 degrees counterclockwise" << std::endl;
+    std::cout << " drop -------------- Drops the current block" << std::endl;
+    std::cout << " levelup ----------- Increases the difficulty level of the game by one" << std::endl;
+    std::cout << " leveldown --------- Decreases the difficulty level of the game by one" << std::endl;
+    std::cout << " restart ----------- Clears the board and starts a new game" << std::endl;
+    std::cout << "=========================================================================" << std::endl;
+    std::cout << " You can type only part of a command, as long as it is distinct from" << std::endl;
+    std::cout << " other commands.   " << std::endl;
+    std::cout << "      i.e. 'lef' is enough for 'left'" << std::endl;
+    std::cout << " Commands can take a multiplier prefix, indicating that command should" << std::endl;
+    std::cout << " be executed some number of times." << std::endl;
+    std::cout << "      i.e. '3ri' means move to the right by 3 cells" << std::endl;
+    std::cout << "=========================================================================" << std::endl;
+    
+}
+
 
 //============================================main=========================================================================
 int main(int argc, const char *argv[]) {
@@ -156,6 +179,9 @@ int main(int argc, const char *argv[]) {
     std::string file2 = "sequence2.txt";
     std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
                                                                         std::make_shared<Board>(file2));
+    
+    std::cout << "Type 'help' to see a list of command." << std::endl;
+    
     // commmand line
     for (int i = 1; i < argc; i++) {
         std::string command = argv[i];
@@ -281,6 +307,8 @@ int main(int argc, const char *argv[]) {
             play->random();
         } else if (command == "norandom") {
             play->norandom();
+        } else if (command == "help") {
+            help();
         } else {
             std::cout << "Invalid Input!" << std::endl;
         }

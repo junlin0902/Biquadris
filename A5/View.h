@@ -19,6 +19,8 @@ class View {
     void applyBlind_text(std::shared_ptr<Board> board);
     void removeBlind_text(std::shared_ptr<Board> board);
     void graphic_version();
+    void player1_turn();
+    void player2_turn();
 };
 
 #endif
