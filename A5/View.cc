@@ -216,7 +216,7 @@ void View::displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         // board 2
         for (int j = 0; j < boardRows; j++){
             // blind && in the range -> cout '?'
-            if ((b2->getBlind()) && ((i >= 5) && (i < 15)) && ((j >= 2) && (j < 9))){
+            if ((b2->getBlind()) && ((i >= 5) && (i <= 15)) && ((j >= 2) && (j < 9))){
                 std::cout << '?';
             }
             else {

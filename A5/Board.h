@@ -13,6 +13,7 @@ class Board {
     std::shared_ptr<Level> level;
     std::shared_ptr<Score> score;
     bool isBlind = false;
+    bool block_before_starblock = false;
     int num_block = 0;
 
     public:
@@ -23,6 +24,8 @@ class Board {
     void setNextBlock(std::shared_ptr<Block> block);
     void setLevel(std::shared_ptr<Level> level);
     void setScore(std::shared_ptr<Score> score);
+    void setblock_before_starblock(bool boolean) {block_before_starblock = boolean;}
+
 
     // blind effect
     void setBlind();
@@ -30,10 +33,12 @@ class Board {
     bool getBlind();
 
     void addCells(std::shared_ptr<Block> star) {cells.push_back(star);}
+    void popbackCells() {cells.pop_back();}
     std::shared_ptr<Block> getCurBlock();
     std::shared_ptr<Block> getNextBlock();
     std::shared_ptr<Level> getLevel();
     std::shared_ptr<Score> getScore();
+    bool getblock_before_starblock() {return block_before_starblock;}
     int totalBlock();
 
     void createBlock();
@@ -43,11 +48,11 @@ class Board {
     char findType(int x, int y);
 
     bool left(); //如果在heavy的情况下down不下去了 is false, else true
-    bool right();
+    bool right();//如果在heavy的情况下down不下去了 is false, else true
     void drop();
     int down(); //1 is true, 0 is false, 2 is false under heavy mode
-    void rotateCW();
-    void rotateAW();
+    bool rotateCW();//如果在heavy的情况下down不下去了 is false, else true
+    bool rotateAW();//如果在heavy的情况下down不下去了 is false, else true
 
     int cleanRow();
     void heavy();

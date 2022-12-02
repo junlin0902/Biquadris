@@ -13,24 +13,36 @@ void BoardControl::restart() {
 void BoardControl::rotateCW(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            Board1->rotateCW();
+            if (Board1->rotateCW() == false) {
+                changeRound();
+                return;
+            }
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-        Board2->rotateCW();
+        if (Board2->rotateCW() == false) {
+            changeRound();
+            return;
+        }
     }
 }
 
 void BoardControl::rotateAW(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            Board1->rotateAW();
+            if (Board1->rotateAW() == false) {
+                changeRound();
+                return;
+            }
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-            Board2->rotateAW();
+        if (Board2->rotateAW() == false) {
+            changeRound();
+            return;
+        }
     }
 }
 
@@ -190,7 +202,7 @@ void BoardControl::norandom() {
         Board1->getLevel()->norandom();
         return;
     }
-    Board1->getLevel()->norandom();
+    Board2->getLevel()->norandom();
 }
 
 void BoardControl::random() {
@@ -198,7 +210,7 @@ void BoardControl::random() {
         Board1->getLevel()->random();
         return;
     }
-    Board1->getLevel()->random();
+    Board2->getLevel()->random();
 }
 
 std::shared_ptr<Board> BoardControl::getBoard1() {return Board1;}
@@ -213,10 +225,19 @@ void BoardControl::changeRound() {
         if (row != 0 && Board1->getLevel()->getCurlevel() == 4) {Board1->getLevel()->resetRound();}
         if (Board1->getLevel()->ifstar() && Board1->getLevel()->getCurlevel() == 4) {
             std::shared_ptr<Block> star = std::make_shared<Star_block>();
+            star->setHeavyLevel(1);
+            //store the new created normal block
+            std::shared_ptr<Block> last_block = Board1->getCurBlock();
+            //pop-back that normal block
+            Board1->popbackCells();
+            Board1->setblock_before_starblock(true);
             Board1->addCells(star);
             Board1->setCurBlock(star);
-            // this drop has prob
+            // this drop has problem
             Board1->drop();
+            Board1->setblock_before_starblock(false);
+            Board1->addCells(last_block);
+            Board1->setCurBlock(last_block);
             Board1->getLevel()->resetRound();
         }
         if (row >= 2) {
@@ -236,7 +257,7 @@ void BoardControl::changeRound() {
                 std::cin >> b;
                 force(b);
             } else {
-                std::cout << "Oh! You are kind! You lose this fucking chance XDDD" <<std::endl;
+                std::cout << "Oh! You are kind! You lose this chance XDDD" <<std::endl;
             }
         }
         round = 2;
@@ -247,9 +268,21 @@ void BoardControl::changeRound() {
     if (row != 0 && Board2->getLevel()->getCurlevel() == 4) {Board2->getLevel()->resetRound();}
     if (Board2->getLevel()->ifstar() && Board2->getLevel()->getCurlevel() == 4) {
         std::shared_ptr<Block> star = std::make_shared<Star_block>();
+
+
+        star->setHeavyLevel(1);
+        //store the new created normal block
+        std::shared_ptr<Block> last_block = Board2->getCurBlock();
+        //pop-back that normal block
+        Board2->popbackCells();
+        Board2->setblock_before_starblock(true);
         Board2->addCells(star);
         Board2->setCurBlock(star);
+        // this drop has problem
         Board2->drop();
+        Board2->setblock_before_starblock(false);
+        Board2->addCells(last_block);
+        Board2->setCurBlock(last_block);
         Board2->getLevel()->resetRound();
     }
     if (row >= 2) {

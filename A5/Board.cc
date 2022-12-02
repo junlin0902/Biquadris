@@ -145,17 +145,40 @@ void Board::drop() {
             break;
         }
     }
+
+    // for (auto& selectedblock : cells) { 
+    //     std::cout << "after dropped block type: " << selectedblock->blockType() << std::endl;
+    //     for (int i = 0; i < 4; i++) {
+    //         std::cout << "x: " << selectedblock->getVectorPosn()[selectedblock->findIndex()][i].x << " y: ";
+    //         std::cout << selectedblock->getVectorPosn()[selectedblock->findIndex()][i].y << std::endl;       
+    //     }
+    // }    
 }
 
 int Board::down() {
     cur_block->down();
+
     //检查有没有out of range
     for (int i = 0; i < 4; i++) {
         if (cur_block->getVectorPosn()[cur_block->findIndex()][i].y > 17) {
             cur_block->up();
             // end current turn
             //createBlock();
+            
             return 0;
+        }
+
+        //heavy模式下碰到底就切换role
+        if (cur_block->getVectorPosn()[cur_block->findIndex()][i].y == 17) {
+            //如果block_before_starblock是true那么说明是在heavy模式下（level4必须是heavy模式）那么return2
+            if (cur_block->getHeavyLevel() > 0) {
+                if (block_before_starblock == true) {
+                    return 2;
+                } else {
+                    createBlock();
+                    return 2;
+                }
+            }
         }
     }
     //检查有没有做出一个成功的down
@@ -196,7 +219,11 @@ int Board::down() {
     if (block_under == true) {
         //如果是有heavy的情况下如果curr block底下有别的block,自动createblock
         if (cur_block->getHeavyLevel() > 0) {
-            createBlock();
+            if (block_before_starblock == true){
+                //do nothing
+            } else {
+                createBlock();
+            }
             //在heavy的情况下如果当底下有block
             return 2;
         }
@@ -208,13 +235,13 @@ int Board::down() {
     return 1;
 }
 
-void Board::rotateCW() {
+bool Board::rotateCW() {
     cur_block->rotateCW();
     // if out of index
     for (int i = 0; i < 4; i++) {
         if (cur_block->getVectorPosn()[cur_block->findIndex()][i].x > 10) {
             cur_block->rotateAW();
-            return;
+            return true;
         }
     }
     for (int i = 0; i < 4; i++) {
@@ -227,17 +254,24 @@ void Board::rotateCW() {
         }
         if (count >= 2) {
             cur_block->rotateAW();
-            return;
+            return true;
         }
     }
+    //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
+    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+        if (this->down() == 2) {
+            return false;
+        }
+    }
+    return true;    
 }
 
-void Board::rotateAW() {
+bool Board::rotateAW() {
     cur_block->rotateAW();
     for (int i = 0; i < 4; i++) {
         if (cur_block->getVectorPosn()[cur_block->findIndex()][i].x > 10) {
             cur_block->rotateCW();
-            return;
+            return true;
         }
     }
     for (int i = 0; i < 4; i++) {
@@ -250,9 +284,16 @@ void Board::rotateAW() {
         }
         if (count >= 2) {
             cur_block->rotateCW();
-            return;
+            return true;
         }
     }
+    //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
+    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+        if (this->down() == 2) {
+            return false;
+        }
+    }
+    return true;  
 }
 
 int Board::cleanRow() {
@@ -303,10 +344,7 @@ void Board::force(char type) {
     else if (type == 'S') {cur_block = std::make_shared<S_block>();}
     else if (type == 'Z') {cur_block = std::make_shared<Z_block>();}
     else if (type == 'T') {cur_block = std::make_shared<T_block>();}
-    else {
-        std::cout << "Invalid Type" << std::endl;
-        return;
-    }
+    else {return;}
     cells.pop_back();
     cells.push_back(cur_block);
 }
