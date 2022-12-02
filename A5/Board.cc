@@ -344,7 +344,10 @@ void Board::force(char type) {
     else if (type == 'S') {cur_block = std::make_shared<S_block>();}
     else if (type == 'Z') {cur_block = std::make_shared<Z_block>();}
     else if (type == 'T') {cur_block = std::make_shared<T_block>();}
-    else {return;}
+    else {
+        std::cout << "Invalid Type" << std::endl;
+        return;
+    }
     cells.pop_back();
     cells.push_back(cur_block);
 }
