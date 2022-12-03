@@ -46,7 +46,7 @@ class BoardControl {
     // this is try to find if this block can move its
     // first step when it has heavy != 0
     // can move return 1 otherwise 0
-    bool if_firststep();
+    //bool if_firststep();
 };
 
 #endif

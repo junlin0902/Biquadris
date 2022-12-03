@@ -12,7 +12,6 @@ class Level {
     bool is_random = false;
     int cur_level;
     int curIndex = 0;
-    //int seed = 0;
     int counter = 0;
 
     public:
@@ -22,7 +21,6 @@ class Level {
     void random();
     void setFilename(std::string fname);
     std::string getFilename() const;
-    //void setSeed(int num);
     void resetRound();
     void resetCurIndex();
     bool ifstar() const;

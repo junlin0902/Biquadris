@@ -278,8 +278,8 @@ void View::endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
         
 
         xw->fillRectangle(board_l1 + inner_s, board_top + header_h, board_width * 2 - inner_s , 3 * header_h, Xwindow::White);
-        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 2 * s, "Player 1 Highest Score" + std::to_string(score_1));
-        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 4 * s, "Player 2 Highest Score" + std::to_string(score_2));
+        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 2 * s, "Player 1 Highest Score: " + std::to_string(score_1));
+        xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 4 * s, "Player 2 Highest Score: " + std::to_string(score_2));
         xw->drawString(board_l1 + 2 *inner_s, board_top + header_h + 6 * s, win);
         
     }

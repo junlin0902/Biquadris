@@ -220,7 +220,7 @@ std::shared_ptr<Board> BoardControl::getBoard2() {return Board2;}
 
 void BoardControl::changeRound() {
     if (round == 1) {
-        view->player2_turn();
+        //view->player2_turn();
         Board1->unsetBlind();
         // special action
         int row = Board1->cleanRow();
@@ -264,7 +264,7 @@ void BoardControl::changeRound() {
         round = 2;
         return;
     }
-    view->player1_turn();
+    //view->player1_turn();
     Board2->unsetBlind();
     int row = Board2->cleanRow();
     if (row != 0 && Board2->getLevel()->getCurlevel() == 4) {Board2->getLevel()->resetRound();}
@@ -346,38 +346,4 @@ void BoardControl::needGraph() {
 
 void BoardControl::endgame() {
     view->endGame(Board1, Board2);
-}
-
-
-bool BoardControl::if_firststep() {
-    if (round == 1) {
-        if (getBoard1()->getLevel()->getCurlevel() >= 3) {
-            for (auto p: getBoard1()->getCurBlock()->getVectorPosn()[getBoard1()->getCurBlock()->findIndex()]) {
-                if (p.y > 3) {return true;}
-            }
-            for (auto p: getBoard1()->getCurBlock()->getVectorPosn()[getBoard1()->getCurBlock()->findIndex()]) {
-                if (p.y == 3) {
-                    std::cout << "reaches here" << std::endl;
-                    if (getBoard1()->findPos(p.x, 4)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    } else {
-        if (getBoard2()->getLevel()->getCurlevel() >= 3) {
-            for (auto p: getBoard2()->getCurBlock()->getVectorPosn()[getBoard2()->getCurBlock()->findIndex()]) {
-                if (p.y > 3) {return true;}
-            }
-            for (auto p: getBoard2()->getCurBlock()->getVectorPosn()[getBoard2()->getCurBlock()->findIndex()]) {
-                if (p.y == 3) {
-                    if (getBoard2()->findPos(p.x, 4)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
 }

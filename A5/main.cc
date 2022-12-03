@@ -175,10 +175,8 @@ int main(int argc, const char *argv[]) {
     if (begin != 'p') {return 1;}
 
     int graphic = 0;
-    bool seed = false;
-    // bool scriptfile1 = false;
-    // bool scriptfile2 = false;
     bool startlevel = false;
+    bool ifseed = false;
     //value stores seed
     std::string value;
     std::string l;
@@ -187,7 +185,6 @@ int main(int argc, const char *argv[]) {
     std::string file1 = "sequence1.txt";
     std::string file2 = "sequence2.txt";
 
-    std::cout << "Type 'help' to see a list of command." << std::endl;
     
     // commmand line
     for (int i = 1; i < argc; i++) {
@@ -198,17 +195,15 @@ int main(int argc, const char *argv[]) {
             i++;
             value = argv[i];
             srand(stringtoInt(value, value.length()));
-            seed = true;
+            ifseed = true;
 
-        } else if (command == "-scriptfile1") {
+        } else if (command == "-scriptfile1") { // file name must be valid or seg fault
             i++;
             file1 = argv[i];
-            // scriptfile1 = true;
 
         } else if (command == "-scriptfile2") {
             i++;
             file2 = argv[i];
-            // scriptfile2 = true;
 
         } else if (command == "-startlevel") {
             i++;
@@ -219,44 +214,45 @@ int main(int argc, const char *argv[]) {
         }
     }
 
+    std::cout << "A here" << std::endl;
+    // construct BoardControl
     std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
                                                                         std::make_shared<Board>(file2));
 
-    if (seed == true) {
-        // unset curblock and nextblock
-        play->getBoard1()->resetBlockonly();
-        // reset counter only for level 4
-        play->getBoard1()->getLevel()->resetRound();
-        // need to reset curblock and nextblock
-        play->getBoard1()->getLevel()->resetCurIndex();
-        play->getBoard1()->createBlock();
-
-        play->getBoard2()->resetBlockonly();
-        play->getBoard2()->getLevel()->resetRound();
-        play->getBoard2()->getLevel()->resetCurIndex();
-        play->getBoard2()->createBlock();
-    }
-    // if (scriptfile1 == true) {
-    //     play->getBoard1()->getLevel()->setFilename(file1);
-    // }
-    // if (scriptfile2 == true) {
-    //     play->getBoard2()->getLevel()->setFilename(file2);
-    // }
-    if (startlevel == true) {
+    std::cout << "B here" << std::endl;
+    if (startlevel) {
+        std::cout << "C here" << std::endl;
         // set level here;
         play->levelup(level);
         play->changeRound();
+        std::cout << "D here" << std::endl;
         play->levelup(level);
         play->changeRound();
+        ifseed = true;
     }
+    
+    if (ifseed) {
+       // unset curblock and nextblock
+       play->getBoard1()->resetBlockonly();
+       // reset counter only for level 4
+       // need to reset curblock and nextblock
+       play->getBoard1()->getLevel()->resetCurIndex();
+       play->getBoard1()->createBlock();
+       play->getBoard1()->getLevel()->resetRound();
 
+       play->getBoard2()->resetBlockonly();
+       play->getBoard2()->getLevel()->resetCurIndex();
+       play->getBoard2()->createBlock();
+       play->getBoard2()->getLevel()->resetRound();
+    }
 
     if (graphic == 0) {
         play->needGraph();
     }
+
     // print(play);
     play->display();
-
+    std::cout << "Type 'help' to see a list of command if needed" << std::endl;
 
     std::string input;
     std::string command;
@@ -266,9 +262,7 @@ int main(int argc, const char *argv[]) {
     while (std::cin >> input) {
         getPrefix(input, times, command);
         command = cmdIdentifier(command);
-        if (play->if_firststep() == false) { // this is temp can be deleted and also isfirststep
-            endStatus = true;
-        } else if (command == "end") {
+        if (command == "end") {
             char end;
             play->endgame();
             std::cout << "Press q to exit." << std::endl;
@@ -338,6 +332,9 @@ int main(int argc, const char *argv[]) {
             play->norandom();
         } else if (command == "help") {
             help();
+            std::string any;
+            std::cout << "Type anything to continue!" << std::endl;
+            std::cin >> any;
         } else {
             std::cout << "Invalid Input!" << std::endl;
         }
@@ -346,19 +343,8 @@ int main(int argc, const char *argv[]) {
         // print(play);
         play->display();
         if (endStatus) {
-            std::string cmd;
-            
+            std::string cmd;          
             std::cout << "Game is end!" << std::endl;
-            // who win here
-            /*int s1 = play->getBoard1()->getScore()->getScore();
-            int s2 = play->getBoard2()->getScore()->getScore();
-            std::cout << "Score for player1: " << s1 << std::endl;
-            std::cout << "Score for player2: " << s2 << std::endl;
-            if (s1 > s2) {std::cout << "WINNER is player1!!" << std::endl;}
-            else if (s1 < s2) {std::cout << "WINNER is player2!!" << std::endl;}
-            else {std::cout << "This is tie!" << std::endl;}
-            std::cout << std::endl;*/
-
             std::cout << "Choose restart or end?" << std::endl;
             std::cin >> cmd;
             if (cmd[0] == 'r' || cmd[0] == 'R') {
