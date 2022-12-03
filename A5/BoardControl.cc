@@ -240,6 +240,14 @@ void BoardControl::changeRound() {
             Board1->addCells(last_block);
             Board1->setCurBlock(last_block);
             Board1->getLevel()->resetRound();
+            std::string endmsg;
+            int count = 0;
+            for (int i = 0; i < 11; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (Board1->findPos(i, j)) {count += 1;}
+                }
+            }
+            if (count > 4) {throw endmsg;}
         }
         if (row >= 2) {
             display();
@@ -286,6 +294,14 @@ void BoardControl::changeRound() {
         Board2->addCells(last_block);
         Board2->setCurBlock(last_block);
         Board2->getLevel()->resetRound();
+        std::string endmsg;
+        int count = 0;
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (Board2->findPos(i, j)) {count += 1;}
+            }
+        }
+        if (count > 4) {throw endmsg;}
     }
     if (row >= 2) {
         display();

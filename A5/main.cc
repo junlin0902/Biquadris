@@ -214,18 +214,14 @@ int main(int argc, const char *argv[]) {
         }
     }
 
-    std::cout << "A here" << std::endl;
     // construct BoardControl
     std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
                                                                         std::make_shared<Board>(file2));
 
-    std::cout << "B here" << std::endl;
     if (startlevel) {
-        std::cout << "C here" << std::endl;
         // set level here;
         play->levelup(level);
         play->changeRound();
-        std::cout << "D here" << std::endl;
         play->levelup(level);
         play->changeRound();
         ifseed = true;
