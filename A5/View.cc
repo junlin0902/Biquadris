@@ -110,10 +110,10 @@ const int colortype(char type){
 }
 
 
-void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2, int round) {
     // header 
-    xw->fillRectangle(0, 0, board_width - inner_s, header_h - bw, Xwindow::Gray90);
-    xw->fillRectangle(board_l2, 0, board_width - inner_s, header_h - bw, Xwindow::Gray90);
+    xw->fillRectangle(0, 0, board_width - outter_s, header_h - bw, Xwindow::Gray90);
+    xw->fillRectangle(board_l2, 0, board_width - outter_s, header_h - bw, Xwindow::Gray90);
 
     xw->drawString(board_l1 + 1, s, "LEVEL:  " + std::to_string(b1.get()->getLevel().get()->getCurlevel()));
     xw->drawString(board_l2 + 1, s, "LEVEL:  " + std::to_string(b2.get()->getLevel().get()->getCurlevel()));
@@ -123,6 +123,15 @@ void View::displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
 
     xw->drawString(board_l1 + 1, 3 * s, "HIGHEST SCORE:  " + std::to_string( b1.get()->getScore()->getHscore()));
     xw->drawString(board_l2 + 1, 3 * s, "HIGHEST SCORE:  " + std::to_string( b2.get()->getScore()->getHscore()));
+
+    // round
+    if (round == 1) {
+        player1_turn();
+    }
+    else {
+        player2_turn();
+    }
+
 
     // board
     for (int i = 0; i < boardRows; i++){

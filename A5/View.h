@@ -11,7 +11,7 @@ class View {
     public:
     explicit View(bool g);
     void displayText(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
-    void displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    void displayGraph(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2, int round);
     void endGame(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void initGraph();
     void applyBlind_graph(std::shared_ptr<Board> board);

@@ -220,7 +220,6 @@ std::shared_ptr<Board> BoardControl::getBoard2() {return Board2;}
 
 void BoardControl::changeRound() {
     if (round == 1) {
-        //view->player2_turn();
         Board1->unsetBlind();
         // special action
         int row = Board1->cleanRow();
@@ -272,13 +271,11 @@ void BoardControl::changeRound() {
         round = 2;
         return;
     }
-    //view->player1_turn();
     Board2->unsetBlind();
     int row = Board2->cleanRow();
     if (row != 0 && Board2->getLevel()->getCurlevel() == 4) {Board2->getLevel()->resetRound();}
     if (Board2->getLevel()->ifstar() && Board2->getLevel()->getCurlevel() == 4) {
         std::shared_ptr<Block> star = std::make_shared<Star_block>();
-
 
         star->setHeavyLevel(1);
         //store the new created normal block
@@ -328,7 +325,7 @@ void BoardControl::changeRound() {
 
 void BoardControl::display() {
     if (graphic) {
-        view->displayGraph(Board1, Board2);
+        view->displayGraph(Board1, Board2, round);
     }
     view->displayText(Board1, Board2);
 }
