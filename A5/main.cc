@@ -175,11 +175,18 @@ int main(int argc, const char *argv[]) {
     if (begin != 'p') {return 1;}
 
     int graphic = 0;
+    bool seed = false;
+    // bool scriptfile1 = false;
+    // bool scriptfile2 = false;
+    bool startlevel = false;
+    //value stores seed
+    std::string value;
+    std::string l;
+    int len = 0;
+    int level = 0;
     std::string file1 = "sequence1.txt";
     std::string file2 = "sequence2.txt";
-    std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
-                                                                        std::make_shared<Board>(file2));
-    
+
     std::cout << "Type 'help' to see a list of command." << std::endl;
     
     // commmand line
@@ -189,38 +196,60 @@ int main(int argc, const char *argv[]) {
             graphic = 1;
         } else if (command == "-seed") {
             i++;
-            std::string value = argv[i];
+            value = argv[i];
             srand(stringtoInt(value, value.length()));
-            // unset curblock and nextblock
-            play->getBoard1()->resetBlockonly();
-            // reset counter only for level 4
-            play->getBoard1()->getLevel()->resetRound();
-            // need to reset curblock and nextblock
-            play->getBoard1()->createBlock();
+            seed = true;
 
-            play->getBoard2()->resetBlockonly();
-            play->getBoard1()->getLevel()->resetRound();
-            play->getBoard2()->createBlock();
         } else if (command == "-scriptfile1") {
             i++;
             file1 = argv[i];
-            play->getBoard1()->getLevel()->setFilename(file1);
+            // scriptfile1 = true;
+
         } else if (command == "-scriptfile2") {
             i++;
             file2 = argv[i];
-            play->getBoard1()->getLevel()->setFilename(file1);
+            // scriptfile2 = true;
+
         } else if (command == "-startlevel") {
             i++;
-            std::string l = argv[i];
-            int len = l.length();
-            int level = stringtoInt(l, len);
-            // set level here;
-            play->levelup(level);
-            play->changeRound();
-            play->levelup(level);
-            play->changeRound();
+            l = argv[i];
+            len = l.length();
+            level = stringtoInt(l, len);
+            startlevel = true;
         }
     }
+
+    std::shared_ptr<BoardControl> play = std::make_shared<BoardControl>(std::make_shared<Board>(file1), 
+                                                                        std::make_shared<Board>(file2));
+
+    if (seed == true) {
+        // unset curblock and nextblock
+        play->getBoard1()->resetBlockonly();
+        // reset counter only for level 4
+        play->getBoard1()->getLevel()->resetRound();
+        // need to reset curblock and nextblock
+        play->getBoard1()->getLevel()->resetCurIndex();
+        play->getBoard1()->createBlock();
+
+        play->getBoard2()->resetBlockonly();
+        play->getBoard2()->getLevel()->resetRound();
+        play->getBoard2()->getLevel()->resetCurIndex();
+        play->getBoard2()->createBlock();
+    }
+    // if (scriptfile1 == true) {
+    //     play->getBoard1()->getLevel()->setFilename(file1);
+    // }
+    // if (scriptfile2 == true) {
+    //     play->getBoard2()->getLevel()->setFilename(file2);
+    // }
+    if (startlevel == true) {
+        // set level here;
+        play->levelup(level);
+        play->changeRound();
+        play->levelup(level);
+        play->changeRound();
+    }
+
 
     if (graphic == 0) {
         play->needGraph();

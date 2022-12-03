@@ -29,6 +29,8 @@ std::string Level::getFilename() const {return filename;}
 
 void Level::resetRound() {counter = 0;}
 
+void Level::resetCurIndex() {curIndex = 0;}
+
 bool Level::ifstar() const {
     if (counter == 5) {
         return true;

@@ -24,6 +24,7 @@ class Level {
     std::string getFilename() const;
     //void setSeed(int num);
     void resetRound();
+    void resetCurIndex();
     bool ifstar() const;
     virtual std::shared_ptr<Block> createBlock() = 0;
 };

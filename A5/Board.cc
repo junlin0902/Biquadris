@@ -366,6 +366,7 @@ void Board::reset() {
     for (int i = 0; i < size; i++) {
         cells.pop_back();
     }
+    level->resetCurIndex();
     cur_block = level->createBlock();
     cells.push_back(cur_block);
     next_block = level->createBlock();
