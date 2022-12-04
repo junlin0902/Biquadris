@@ -86,13 +86,27 @@ void BoardControl::right(int times) {
     }
 }
 
-void BoardControl::drop() {
+void BoardControl::drop(int times) {
     if (round == 1) {
-        Board1->drop();
+        for (int i = 0; i < times; i++) {
+            Board1->drop();
+            changeRound();
+            bool ifblind = false;
+            if (Board2->getBlind()) {ifblind = true;}
+            changeRound();
+            if (ifblind) {Board2->setBlind();}
+        }
         changeRound();
         return;
     }
-    Board2->drop();
+    for (int i = 0; i < times; i++) {
+        Board2->drop();
+        changeRound();
+        bool ifblind = false;
+        if (Board1->getBlind()) {ifblind = true;}
+        changeRound();
+        if (ifblind) {Board1->setBlind();}
+    }
     changeRound();
 }
 
@@ -128,6 +142,14 @@ void BoardControl::force(char block) {
         return;
     }
     Board1->force(block);
+}
+
+void BoardControl::forceMe(char block) {
+    if (round == 1) {
+        Board1->force(block);
+        return;
+    }
+    Board2->force(block);
 }
 
 void BoardControl::levelup(int num) {

@@ -24,10 +24,11 @@ class BoardControl {
     void rotateAW(int times);
     void left(int times);
     void right(int times);
-    void drop();
+    void drop(int times);
     void down(int times);
     void heavy();
     void force(char block);
+    void forceMe(char block);
     void levelup(int num);
     void leveldown(int num);
     void norandom();

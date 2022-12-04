@@ -346,6 +346,7 @@ void Board::heavy() {
 }
 
 void Board::force(char type) {
+    int heavy = cur_block->getHeavyLevel();
     if (type == 'I') {cur_block = std::make_shared<I_block>();}
     else if (type == 'J') {cur_block = std::make_shared<J_block>();}
     else if (type == 'L') {cur_block = std::make_shared<L_block>();}
@@ -358,6 +359,7 @@ void Board::force(char type) {
         return;
     }
     cells.pop_back();
+    cur_block->setHeavyLevel(heavy);
     cells.push_back(cur_block);
 }
 
