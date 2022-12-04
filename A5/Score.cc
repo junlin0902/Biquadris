@@ -18,4 +18,11 @@ void Score::cleanRow(int numRow) {
     }
 }
 
+void Score::addscore(int num) {
+    score += num;
+    if (score > highestScore) {
+        highestScore = score;
+    }
+}
+
 void Score::restart() {score = 0;}

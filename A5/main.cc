@@ -259,6 +259,7 @@ int main(int argc, const char *argv[]) {
     while (std::cin >> input) {
         getPrefix(input, times, command);
         command = cmdIdentifier(command);
+
         if (times == 0) {} // do nothing when prefix = 0
         else if (command == "end") {
             char end;

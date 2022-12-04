@@ -21,6 +21,7 @@ class Block {
     int rotateTimes = 0;
     int posIndex = 0;
     int heavyLevel = 0;
+    int generateLevel = 0; //to record the level of this block generated in
 
     public:
     virtual void rotateCW() = 0;
@@ -36,7 +37,11 @@ class Block {
     void setHeavyLevel(int heavy);
     bool findPos(int& x, int& y);
     void changeVis(int& x, int& y); // x and y must be valid or it will error
+    // return true if there is at least one posn vis
+    bool ifVis() const;
     void changeY(int& x, int& y, int num); // add num to y to Posn(x, y)
+    int getGenerateLevel() const;
+    void setGenerateLevel(int num);
     virtual ~Block() {}
 };
 

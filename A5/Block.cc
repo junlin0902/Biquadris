@@ -66,6 +66,15 @@ void Block::changeVis(int& x, int& y) {
     }
 }
 
+bool Block::ifVis() const {
+    for (auto p: pos[findIndex()]) {
+        if (p.visible == true) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Block::changeY(int& x, int& y, int num) {
     for (auto& p: pos[posIndex]) {
         if (p == Posn{x, y, true}) {
@@ -73,6 +82,10 @@ void Block::changeY(int& x, int& y, int num) {
         }
     }
 }
+
+int Block::getGenerateLevel() const {return generateLevel;}
+
+void Block::setGenerateLevel(int num) {generateLevel = num;}
 
 //============================================================
 // class I_block

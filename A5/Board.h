@@ -15,7 +15,7 @@ class Board {
     std::shared_ptr<Score> score;
     bool isBlind = false;
     bool block_before_starblock = false;
-    //int num_block = 0;
+    int oldAddscore = 0;
 
     public:
     Board(std::string);

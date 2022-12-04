@@ -29,12 +29,16 @@ void Board::createBlock() {
     }
     if (cur_block == nullptr) {
         cur_block = level->createBlock();
+        // record the level block generated in
+        cur_block->setGenerateLevel(level->getCurlevel());
         cells.push_back(cur_block);
         next_block = level->createBlock();
+        next_block->setGenerateLevel(level->getCurlevel());
         return;
     } 
     cur_block = next_block;
     next_block = level->createBlock();
+    next_block->setGenerateLevel(level->getCurlevel());
     cells.push_back(cur_block);
 }
 
@@ -338,6 +342,17 @@ int Board::cleanRow() {
         }
     }
     score->cleanRow(numRow);
+    // to check if there is new block totally clean
+    int addScore = 0;
+    for (auto b: cells) {
+        if (b->ifVis() == false) {
+            std::cout << (b->getGenerateLevel() + 1) * (b->getGenerateLevel() + 1) << std::endl;
+            addScore += (b->getGenerateLevel() + 1) * (b->getGenerateLevel() + 1);
+        }
+    }
+    int add = addScore - oldAddscore;
+    oldAddscore = addScore;
+    score->addscore(add);
     return numRow;
 }
 
@@ -360,6 +375,7 @@ void Board::force(char type) {
     }
     cells.pop_back();
     cur_block->setHeavyLevel(heavy);
+    cur_block->setGenerateLevel(level->getCurlevel());
     cells.push_back(cur_block);
 }
 
