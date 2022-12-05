@@ -14,36 +14,38 @@ void BoardControl::restart() {
 void BoardControl::rotateCW(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            if (Board1->rotateCW() == false) {
-                changeRound();
-                return;
-            }
+            Board1->rotateCW();
+        }
+        if (Board1->heavydown() == false) {
+            changeRound();
+            return;
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-        if (Board2->rotateCW() == false) {
-            changeRound();
-            return;
-        }
+        Board2->rotateCW();
+    }
+    if (Board2->heavydown() == false) {
+        changeRound();
     }
 }
 
 void BoardControl::rotateAW(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
-            if (Board1->rotateAW() == false) {
-                changeRound();
-                return;
-            }
+            Board1->rotateAW();
+        }
+        if (Board1->heavydown() == false) {
+            changeRound();
+            return;
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-        if (Board2->rotateAW() == false) {
-            changeRound();
-            return;
-        }
+        Board2->rotateAW();
+    }
+    if (Board2->heavydown() == false) {
+        changeRound();
     }
 }
 
@@ -51,19 +53,19 @@ void BoardControl::left(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
             //只有是heavy的情况下board::right可能会return false
-            if (Board1->left() == false) {
-                changeRound();
-                return;
-            } 
+            Board1->left();
+        }
+        if (Board1->heavydown() == false) {
+            changeRound();
+            return;
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-            //只有是heavy的情况下board::right可能会return false
-            if (Board2->left() == false) {
-                changeRound();
-                return;
-            } 
+        Board2->left();
+    }
+    if (Board2->heavydown() == false) {
+        changeRound();
     }
 }
 
@@ -71,18 +73,19 @@ void BoardControl::right(int times) {
     if (round == 1) {
         for (int i = 0; i < times; i++) {
             //只有是heavy的情况下board::right可能会return false
-            if (Board1->right() == false) {
-                changeRound();
-                return;
-            }  
+            Board1->right();
+        }
+        if (Board1->heavydown() == false) {
+            changeRound();
+            return;
         }
         return;
     }
     for (int i = 0; i < times; i++) {
-        if (Board2->right() == false) {
-            changeRound();
-            return;
-        }  
+        Board2->right(); 
+    }
+    if (Board2->heavydown() == false) {
+        changeRound();
     }
 }
 
@@ -165,11 +168,12 @@ void BoardControl::levelup(int num) {
             Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
         } else if (curLevel + num >= 4) {
             Board1->setLevel(std::make_shared<Level4>(Board1->getLevel()->getFilename()));
-            Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 1);
-            Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
+            if (curLevel < 3) {
+                Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 1);
+                Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
+            }
         }
         Board1->getScore()->setLevel(Board1->getLevel());
-        //Board1->getLevel()->setSeed(seed);
         return;
     }
     int curLevel = Board2->getLevel()->getCurlevel();
@@ -183,8 +187,10 @@ void BoardControl::levelup(int num) {
         Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
     } else if (curLevel + num >= 4) {
         Board2->setLevel(std::make_shared<Level4>(Board2->getLevel()->getFilename()));
-        Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 1);
-        Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
+        if (curLevel < 3) {
+            Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 1);
+            Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
+        }
     }
     Board2->getScore()->setLevel(Board2->getLevel());
     //Board2->getLevel()->setSeed(seed);
@@ -195,10 +201,22 @@ void BoardControl::leveldown(int num) {
         int curLevel = Board1->getLevel()->getCurlevel();
         if (curLevel - num <= 0) {
             Board1->setLevel(std::make_shared<Level0>(Board1->getLevel()->getFilename()));
+            if (curLevel > 2) {
+                Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() - 1);
+                Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() - 1);
+            }
         } else if (curLevel - num == 1) {
             Board1->setLevel(std::make_shared<Level1>());
+            if (curLevel > 2) {
+                Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() - 1);
+                Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() - 1);
+            }
         } else if (curLevel - num == 2) {
             Board1->setLevel(std::make_shared<Level2>());
+            if (curLevel > 2) {
+                Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() - 1);
+                Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() - 1);
+            }
         } else if (curLevel - num == 3) {
             Board1->setLevel(std::make_shared<Level3>(Board1->getLevel()->getFilename()));
         }
@@ -209,10 +227,22 @@ void BoardControl::leveldown(int num) {
     int curLevel = Board2->getLevel()->getCurlevel();
     if (curLevel - num <= 0) {
         Board2->setLevel(std::make_shared<Level0>(Board2->getLevel()->getFilename()));
+        if (curLevel > 2) {
+            Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() - 1);
+            Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() - 1);
+        }
     } else if (curLevel - num == 1) {
         Board2->setLevel(std::make_shared<Level1>());
+        if (curLevel > 2) {
+            Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() - 1);
+            Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() - 1);
+        }
     } else if (curLevel - num == 2) {
         Board2->setLevel(std::make_shared<Level2>());
+        if (curLevel > 2) {
+            Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() - 1);
+            Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() - 1);
+        }
     } else if (curLevel - num == 3) {
         Board2->setLevel(std::make_shared<Level3>(Board2->getLevel()->getFilename()));
     }

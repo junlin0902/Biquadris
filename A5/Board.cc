@@ -100,12 +100,21 @@ bool Board::left() {
         }
     }
     //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
+    /*for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+        if (this->down() == 2) {
+            return false;
+        }
+    }*/
+    return true;  
+}
+
+bool Board::heavydown() {
     for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
         if (this->down() == 2) {
             return false;
         }
     }
-    return true;  
+    return true;
 }
 
 bool Board::right() {
@@ -130,11 +139,11 @@ bool Board::right() {
         }
     }
     //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
-    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+    /*for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
         if (this->down() == 2) {
             return false;
         }
-    }
+    }*/
     return true;
 }
 
@@ -223,11 +232,11 @@ bool Board::rotateCW() {
         }
     }
     //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
-    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+    /*for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
         if (this->down() == 2) {
             return false;
         }
-    }
+    }*/
     return true;    
 }
 
@@ -253,11 +262,11 @@ bool Board::rotateAW() {
         }
     }
     //如果有heavy的情况下，trigger down，如果down不下去了就return false，createblock
-    for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
+    /*for (int i = 0; i < cur_block->getHeavyLevel(); i++) {
         if (this->down() == 2) {
             return false;
         }
-    }
+    }*/
     return true;  
 }
 

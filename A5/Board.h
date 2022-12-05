@@ -56,6 +56,7 @@ class Board {
     bool rotateCW();//如果在heavy的情况下down不下去了 is false, else true
     bool rotateAW();//如果在heavy的情况下down不下去了 is false, else true
 
+    bool heavydown();
     int cleanRow();
     void heavy();
     void force(char type);
