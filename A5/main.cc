@@ -342,7 +342,7 @@ int main(int argc, const char *argv[]) {
         else if (command == "Z") {play->forceMe('Z');}
         else if (command == "L") {play->forceMe('L');}
         else if (command == "T") {play->forceMe('T');}
-        else if (command == "S") {play->forceMe('s');}
+        else if (command == "S") {play->forceMe('S');}
 
 
         // set input
