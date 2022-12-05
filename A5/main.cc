@@ -155,9 +155,8 @@ void help() {
     std::cout << " drop -------------- Drops the current block" << std::endl;
     std::cout << " levelup ----------- Increases the difficulty level of the game by one" << std::endl;
     std::cout << " leveldown --------- Decreases the difficulty level of the game by one" << std::endl;
-    // std::cout << " sequence ---------- Read file as the command input" << std::endl;
+    std::cout << " sequence ---------- Read file as the command input" << std::endl;
     std::cout << " restart ----------- Clears the board and starts a new game" << std::endl;
-    std::cout << " end --------------- Ends the game" << std::endl;
     std::cout << "=========================================================================" << std::endl;
     std::cout << " You can type only part of a command, as long as it is distinct from" << std::endl;
     std::cout << " other commands.   " << std::endl;

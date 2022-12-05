@@ -342,6 +342,7 @@ void Board::reset() {
     next_block = level->createBlock();
     score->restart();
     level->resetRound();
+    oldAddscore = 0;
 }
 
 void Board::resetBlockonly() {
