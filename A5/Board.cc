@@ -170,19 +170,6 @@ int Board::down() {
             }            
             return 0;
         }
-
-        // //heavy模式下碰到底就切换role
-        // if (cur_block->getVectorPosn()[cur_block->findIndex()][i].y == 17) {
-        //     //如果block_before_starblock是true那么说明是在heavy模式下（level4必须是heavy模式）那么return2
-        //     if (cur_block->getHeavyLevel() > 0) {
-        //         if (block_before_starblock == true) {
-        //             return 2;
-        //         } else {
-        //             createBlock();
-        //             return 2;
-        //         }
-        //     }
-        // }
     }
     //检查有没有做出一个成功的down
     for (int i = 0; i < 4; i++) {
@@ -208,42 +195,7 @@ int Board::down() {
             //在不是heavy的情况下如果当底下有block
             return 0;
         }
-    }
-
-    // //判断更新完curr block底下有没有别的block
-    // //没必要createblock,createblock是drop的工作
-    // //特殊情况：如果是有heavy的情况下，down会自动检查curr block底下有没有别的block，如果有自动createblock，然后return false
-    
-    // cur_block->down();
-    // bool block_under = false;
-    // for (int i = 0; i < 4; i++) {
-    //     int count = 0;
-    //     for (auto& selectedblock : cells) {
-    //         if (selectedblock->findPos(cur_block->getVectorPosn()[cur_block->findIndex()][i].x, 
-    //                                 cur_block->getVectorPosn()[cur_block->findIndex()][i].y)) {
-    //             count += 1;
-    //         }          
-    //     }
-    //     if (count >= 2) {
-    //         block_under = true;
-    //     }
-    // }
-    // cur_block->up();
-    // if (block_under == true) {
-    //     //如果是有heavy的情况下如果curr block底下有别的block,自动createblock
-    //     if (cur_block->getHeavyLevel() > 0) {
-    //         if (block_before_starblock == true){
-    //             //do nothing
-    //         } else {
-    //             createBlock();
-    //         }
-    //         //在heavy的情况下如果当底下有block
-    //         return 2;
-    //     }
-    //     //在不是heavy的情况下如果当底下有block
-    //     return 0;
-    // }
-    
+    }   
     //如果底下没block
     return 1;
 }

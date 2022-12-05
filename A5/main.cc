@@ -155,6 +155,7 @@ void help() {
     std::cout << " drop -------------- Drops the current block" << std::endl;
     std::cout << " levelup ----------- Increases the difficulty level of the game by one" << std::endl;
     std::cout << " leveldown --------- Decreases the difficulty level of the game by one" << std::endl;
+    std::cout << " sequence ---------- Read file as the command input" << std::endl;
     std::cout << " restart ----------- Clears the board and starts a new game" << std::endl;
     std::cout << "=========================================================================" << std::endl;
     std::cout << " You can type only part of a command, as long as it is distinct from" << std::endl;
@@ -410,7 +411,7 @@ int main(int argc, const char *argv[]) {
                 else if (command == "Z") {play->forceMe('Z');}
                 else if (command == "L") {play->forceMe('L');}
                 else if (command == "T") {play->forceMe('T');}
-                else if (command == "S") {play->forceMe('s');}
+                else if (command == "S") {play->forceMe('S');}
                 else {std::cout << "Invalid Input!" << std::endl;}
 
                 if (endStatus) {break;}

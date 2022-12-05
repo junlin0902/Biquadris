@@ -377,8 +377,6 @@ void BoardControl::needGraph() {
     view->initGraph(); 
 }
 
-//void BoardControl::setSeed(int num) {seed = num;}
-
 void BoardControl::endgame() {
     view->endGame(Board1, Board2);
 }
