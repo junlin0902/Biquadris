@@ -307,7 +307,7 @@ int Board::cleanRow() {
     int addScore = 0;
     for (auto b: cells) {
         if (b->ifVis() == false) {
-            std::cout << (b->getGenerateLevel() + 1) * (b->getGenerateLevel() + 1) << std::endl;
+            std::cout << b->getGenerateLevel() << std::endl;
             addScore += (b->getGenerateLevel() + 1) * (b->getGenerateLevel() + 1);
         }
     }
@@ -348,7 +348,9 @@ void Board::reset() {
     level->resetCurIndex();
     cur_block = level->createBlock();
     cells.push_back(cur_block);
+    cur_block->setGenerateLevel(level->getCurlevel());
     next_block = level->createBlock();
+    next_block->setGenerateLevel(level->getCurlevel());
     score->restart();
     level->resetRound();
     oldAddscore = 0;

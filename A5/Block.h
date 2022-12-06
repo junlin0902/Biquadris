@@ -140,6 +140,7 @@ class Star_block: public Block {
     void rotateAW() override {};
     Star_block() {
         type = '*';
+        generateLevel = 4;
         // first appear in the mid col
         pos.push_back(std::vector<Posn>{Posn{5, 3}, Posn{5, 3, false}, Posn{5, 3, false}, Posn{5, 3, false}});
     }

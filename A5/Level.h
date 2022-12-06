@@ -4,6 +4,7 @@
 #include "Block.h"
 #include <vector>
 #include <memory>
+#include <iostream>
 
 class Level {
     protected:
@@ -43,7 +44,8 @@ class Level0: public Level {
 
 class Level1: public Level {
     public:
-    Level1() {
+    Level1(std::string file) {
+        filename = file;
         is_random = true;
         cur_level = 1;
     }
@@ -52,7 +54,8 @@ class Level1: public Level {
 
 class Level2: public Level {
     public:
-    Level2() {
+    Level2(std::string file) {
+        filename = file;
         is_random = true;
         cur_level = 2;
     }
