@@ -313,7 +313,7 @@ int main(int argc, const char *argv[]) {
 
         // this is just for testing special action 
         // need to be deleted
-        } else if (command == "force") {
+        } /*else if (command == "force") {
             char block;
             std::cin >> block;
             play->force(block);
@@ -324,12 +324,14 @@ int main(int argc, const char *argv[]) {
         
         
         
-        } else if (command == "restart" && times < 2) {
+        }*/ else if (command == "restart" && times < 2) {
             play->restart();
         } else if (command == "random" && times < 2) {
             play->random();
         } else if (command == "norandom" && times < 2) {
-            play->norandom();
+            std::string newfile;
+            std::cin >> newfile;
+            play->norandom(newfile);
         } else if (command == "help") {
             help();
             std::string any;
@@ -403,7 +405,9 @@ int main(int argc, const char *argv[]) {
                 } else if (command == "random" && times < 2) {
                     play->random();
                 } else if (command == "norandom" && times < 2) {
-                    play->norandom();
+                    std::string newfile;
+                    std::cin >> newfile;
+                    play->norandom(newfile);                   
                 }
                 else if (command == "I") {play->forceMe('I');}
                 else if (command == "J") {play->forceMe('J');}

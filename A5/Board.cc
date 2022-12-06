@@ -307,7 +307,7 @@ int Board::cleanRow() {
     int addScore = 0;
     for (auto b: cells) {
         if (b->ifVis() == false) {
-            std::cout << b->getGenerateLevel() << std::endl;
+            //std::cout << b->getGenerateLevel() << std::endl;
             addScore += (b->getGenerateLevel() + 1) * (b->getGenerateLevel() + 1);
         }
     }

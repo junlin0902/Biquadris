@@ -254,12 +254,14 @@ void BoardControl::leveldown(int num) {
     //Board2->getLevel()->setSeed(seed);
 }
 
-void BoardControl::norandom() {
+void BoardControl::norandom(std::string file) {
     if (round == 1) {
         Board1->getLevel()->norandom();
+        Board1->getLevel()->setFilename(file);
         return;
     }
     Board2->getLevel()->norandom();
+    Board2->getLevel()->setFilename(file);
 }
 
 void BoardControl::random() {

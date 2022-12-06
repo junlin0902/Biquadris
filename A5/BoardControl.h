@@ -30,7 +30,7 @@ class BoardControl {
     void forceMe(char block);
     void levelup(int num);
     void leveldown(int num);
-    void norandom();
+    void norandom(std::string file);
     void random();
     std::shared_ptr<Board> getBoard1();
     std::shared_ptr<Board> getBoard2();
