@@ -322,6 +322,9 @@ void BoardControl::changeRound() {
                 force(b);
             } else {
                 std::cout << "Oh! You are kind! You lose this chance XDDD" <<std::endl;
+                std::cout << "Press any to continue" << std::endl;
+                std::string temp;
+                std::cin >> temp;
             }
         }
         round = 2;
@@ -374,6 +377,9 @@ void BoardControl::changeRound() {
             force(b);
         } else {
             std::cout << "Oh! You are kind! You lose this fucking chance XDDD" <<std::endl;
+            std::cout << "Press any to continue" << std::endl;
+            std::string temp;
+            std::cin >> temp;
         }
     }
     round = 1;
