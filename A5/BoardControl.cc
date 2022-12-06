@@ -258,10 +258,16 @@ void BoardControl::norandom(std::string file) {
     if (round == 1) {
         Board1->getLevel()->norandom();
         Board1->getLevel()->setFilename(file);
+        Board1->getLevel()->resetVector();
+        Board1->getLevel()->readFile();
+        Board1->getLevel()->resetCurIndex();
         return;
     }
     Board2->getLevel()->norandom();
     Board2->getLevel()->setFilename(file);
+    Board2->getLevel()->resetVector();
+    Board2->getLevel()->readFile();
+    Board2->getLevel()->resetCurIndex();
 }
 
 void BoardControl::random() {

@@ -29,6 +29,13 @@ void Level::resetRound() {counter = 0;}
 
 void Level::resetCurIndex() {curIndex = 0;}
 
+void Level::resetVector() {
+    int i = block.size();
+    for (int j = 0; j < i; j++) {
+        block.pop_back();
+    }
+}
+
 bool Level::ifstar() const {
     if (counter == 5) {
         return true;

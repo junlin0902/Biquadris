@@ -25,6 +25,7 @@ class Level {
     void resetRound();
     void resetCurIndex();
     bool ifstar() const;
+    void resetVector();
     virtual std::shared_ptr<Block> createBlock() = 0;
 };
 
