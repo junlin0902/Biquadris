@@ -166,7 +166,7 @@ void BoardControl::levelup(int num) {
             Board1->setLevel(std::make_shared<Level3>(Board1->getLevel()->getFilename()));
             Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 1);
             Board1->getNextBlock()->setHeavyLevel(Board1->getNextBlock()->getHeavyLevel() + 1);
-        } else if (curLevel + num >= 4) {
+        } else if (curLevel + num == 4) {
             Board1->setLevel(std::make_shared<Level4>(Board1->getLevel()->getFilename()));
             if (curLevel < 3) {
                 Board1->getCurBlock()->setHeavyLevel(Board1->getCurBlock()->getHeavyLevel() + 1);
@@ -186,7 +186,7 @@ void BoardControl::levelup(int num) {
         Board2->setLevel(std::make_shared<Level3>(Board2->getLevel()->getFilename()));
         Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 1);
         Board2->getNextBlock()->setHeavyLevel(Board2->getNextBlock()->getHeavyLevel() + 1);
-    } else if (curLevel + num >= 4) {
+    } else if (curLevel + num == 4) {
         Board2->setLevel(std::make_shared<Level4>(Board2->getLevel()->getFilename()));
         if (curLevel < 3) {
             Board2->getCurBlock()->setHeavyLevel(Board2->getCurBlock()->getHeavyLevel() + 1);

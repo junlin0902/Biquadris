@@ -353,72 +353,77 @@ int main(int argc, const char *argv[]) {
             std::string filename;
             std::cin >> filename;
             std::ifstream iss{filename};
-            while (iss >> input) {
-                getPrefix(input, times, command);
-                command = cmdIdentifier(command);
-                if (times == 0) {}
-                else if (command == "end") {
-                    play->endgame();
-                    return 1;
-                } else if (command == "left") {
-                    try {
-                    play->left(times);
-                    } catch (std::string endmsg) {
-                        endStatus = true;
+            std::string wholeline;
+            std::string string_in_line;
+            while (getline(iss,wholeline)) {
+                std::istringstream istring{wholeline};
+                while (istring >> string_in_line) {
+                    getPrefix(string_in_line, times, command);
+                    command = cmdIdentifier(command);
+                    if (times == 0) {}
+                    else if (command == "end") {
+                        play->endgame();
+                        return 1;
+                    } else if (command == "left") {
+                        try {
+                        play->left(times);
+                        } catch (std::string endmsg) {
+                            endStatus = true;
+                        }
+                    } else if (command == "right") {
+                        try {
+                        play->right(times);
+                        } catch (std::string endmsg) {
+                            endStatus = true;
+                        }
+                    } else if (command == "down") {
+                        try {
+                        play->down(times);
+                        } catch (std::string endmsg) {
+                            endStatus = true;
+                        }
+                    } else if (command == "drop") {
+                        try {
+                        play->drop(times);
+                        } catch (std::string endmsg) {
+                            endStatus = true;
+                        }
+                    } else if (command == "rotateCW") {
+                        try {
+                        play->rotateCW(times);
+                        } catch (std::string endmsg) {
+                            endStatus = true;
+                        }
+                    } else if (command == "rotateAW") {
+                        try {
+                        play->rotateAW(times);
+                        } catch (std::string endmsg) {
+                            endStatus = true;
+                        }
+                    } else if (command == "levelup") {
+                        play->levelup(times);
+                    } else if (command == "leveldown") {
+                        play->leveldown(times);      
+                    } else if (command == "restart" && times < 2) {
+                        play->restart();
+                    } else if (command == "random" && times < 2) {
+                        play->random();
+                    } else if (command == "norandom" && times < 2) {
+                        std::string newfile;
+                        istring >> newfile;
+                        play->norandom(newfile);                   
                     }
-                } else if (command == "right") {
-                    try {
-                    play->right(times);
-                    } catch (std::string endmsg) {
-                        endStatus = true;
-                    }
-                } else if (command == "down") {
-                    try {
-                    play->down(times);
-                    } catch (std::string endmsg) {
-                        endStatus = true;
-                    }
-                } else if (command == "drop") {
-                    try {
-                    play->drop(times);
-                    } catch (std::string endmsg) {
-                        endStatus = true;
-                    }
-                } else if (command == "rotateCW") {
-                    try {
-                    play->rotateCW(times);
-                    } catch (std::string endmsg) {
-                        endStatus = true;
-                    }
-                } else if (command == "rotateAW") {
-                    try {
-                    play->rotateAW(times);
-                    } catch (std::string endmsg) {
-                        endStatus = true;
-                    }
-                } else if (command == "levelup") {
-                    play->levelup(times);
-                } else if (command == "leveldown") {
-                    play->leveldown(times);      
-                } else if (command == "restart" && times < 2) {
-                    play->restart();
-                } else if (command == "random" && times < 2) {
-                    play->random();
-                } else if (command == "norandom" && times < 2) {
-                    std::string newfile;
-                    std::cin >> newfile;
-                    play->norandom(newfile);                   
-                }
-                else if (command == "I") {play->forceMe('I');}
-                else if (command == "J") {play->forceMe('J');}
-                else if (command == "O") {play->forceMe('O');}
-                else if (command == "Z") {play->forceMe('Z');}
-                else if (command == "L") {play->forceMe('L');}
-                else if (command == "T") {play->forceMe('T');}
-                else if (command == "S") {play->forceMe('S');}
-                else {std::cout << "Invalid Input!" << std::endl;}
+                    else if (command == "I") {play->forceMe('I');}
+                    else if (command == "J") {play->forceMe('J');}
+                    else if (command == "O") {play->forceMe('O');}
+                    else if (command == "Z") {play->forceMe('Z');}
+                    else if (command == "L") {play->forceMe('L');}
+                    else if (command == "T") {play->forceMe('T');}
+                    else if (command == "S") {play->forceMe('S');}
+                    else {std::cout << "Invalid Input!" << std::endl;}
 
-                if (endStatus) {break;}
+                    if (endStatus) {break;}
+                }
             }
         }
 
