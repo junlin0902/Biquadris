@@ -26,3 +26,6 @@ Use the provided Makefile for easy compilation:
 After successful compilation:
 1. Run the biquadris executable to start the game.
 2. Use the sequence1.txt and sequence2.txt files for predefined game sequences.
+
+
+![a3b01b054987a45fe86a636c51835bd](https://github.com/junlin0902/Biquadris/assets/118623321/548a438a-7af2-4a00-8be8-973948e7fa58)
