@@ -6,7 +6,7 @@ DEPENDS = ${OBJECTS:.o=.d}
 EXEC = biquadris
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -L/opt/homebrew/Cellar/libx11/1.8.10/lib -lX11
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
 
 %.o: %.cc
 	$(CXX) -c -o $@ $< $(CXXFLAGS)
